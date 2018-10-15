@@ -12,7 +12,7 @@ packages:
     - rabbitmq-server
 
 runcmd:
-    - [git, clone, https://github.com/xscanpix/acc-a3.git]
+    - [git, clone, "https://github.com/xscanpix/acc-a3.git"]
     - [cp, acc-a3/messaging, ~/]
     - [cd, ~/messaging]
     - [virtualenv, --no-site-packages, venv]
