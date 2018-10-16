@@ -1,9 +1,11 @@
 # http://docs.openstack.org/developer/python-novaclient/ref/v2/servers.html
+
+# python-openstackclient version 3.11.0
+
 import time, os, sys
 from os import environ as env
 
 from novaclient.client import Client
-from neutronclient.v2_0 import client
 import keystoneclient.v3.client as ksclient
 from keystoneauth1 import loading
 from keystoneauth1 import session
@@ -34,8 +36,6 @@ flavor = nova_client.flavors.find(name=flavor)
 
 if private_net != None:
     net = nova_client.neutron.find_network(private_net)
-    print nova_client
-    print net
     nics = [{'net-id': net.id}]
 else:
     sys.exit("private-net not defined.")
@@ -64,3 +64,14 @@ if True:
         inst_status = instance.status
         
         print "Instance: "+ instance.name +" is in " + inst_status + "state"
+
+
+floating_ips = nova_client.floating_ips.list()
+free_floating_ips = []
+
+for ip in floating_ips:
+    if ip.instance_id == None:
+        free_floating_ips.append(ip)
+
+instance.add_floating_ip(free_floating_ips[0])
+
