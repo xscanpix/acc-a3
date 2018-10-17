@@ -8,14 +8,10 @@ packages:
     - python3-dev
     - build-essential
     - python3-pip
-    - python-virtualenv
     - rabbitmq-server
 
 runcmd:
-    - [git, clone, "https://github.com/xscanpix/acc-a3.git"]
-    - [cp, -r, acc-a3/messaging, ~/]
-    - [cd, ~/messaging]
-    - [virtualenv, --no-site-packages, venv]
-    - [source, venv/bin/activate]
     - [pip, install, celery]
+    - [git, clone, "https://github.com/xscanpix/acc-a3.git"]
+    - [cd, ~/acc-a3/messaging]
     - [celery, worker, -A, tasks]
