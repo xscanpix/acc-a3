@@ -25,11 +25,11 @@ def gen_prime(x):
 
 @app.route('/prime', methods=['GET'])
 def prime():
-	return print_hello.apply_async(countdown=5)
+	return gen_prime(100)
 
 @app.route('/hello', methods=['GET'])
 def hello():
-	return print_hello.apply_async(countdown=5)
+	return print_hello()
 
 if __name__ == '__main__':
 	app.run(debug=True)
