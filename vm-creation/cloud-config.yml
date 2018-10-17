@@ -4,11 +4,12 @@ package_update: true
 package_upgrade: true
 
 packages:
-    - python3-setuptools
-    - python3-dev
-    - build-essential
+#    - python3-setuptools
+#    - python3-dev
+#    - build-essential
     - python3-pip
     - rabbitmq-server
+    - git
 
 runcmd:
     - [cd, ~]
