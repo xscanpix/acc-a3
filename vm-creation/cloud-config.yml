@@ -18,4 +18,4 @@ runcmd:
     - [virtualenv, --no-site-packages, venv]
     - [source, venv/bin/activate]
     - [pip, install, celery]
-    - [celery, worker, -A, tasks, \&]
+    - [celery, worker, -A, tasks]
