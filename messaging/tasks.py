@@ -32,7 +32,7 @@ def return_text():
 	filtered = list(filter(lambda x: x != '\n', rows))
 	text = list(map(lambda x: json.loads(x)['text'].encode('utf-8'), filtered))
 
-	return text
+	return str(text)
 
 @app.route('/text', methods=['GET'])
 def text():
