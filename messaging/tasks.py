@@ -8,13 +8,13 @@ app.config['CELERY_RESULT_BACKEND'] = 'amqp://localhost:5000/0'
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
-app = Celery('tasks', backend='amqp', broker='amqp://localhost:5000/0')
+#app = Celery('tasks', backend='amqp', broker='amqp://localhost:5000/0')
 
-@app.task(ignore_result=True)
+@celery.task
 def print_hello():
     print 'hello there'
 
-@app.task
+@celery.task
 def gen_prime(x):
     multiples = []
     results = []
@@ -24,3 +24,7 @@ def gen_prime(x):
             for j in xrange(i*i, x+1, i):
                 multiples.append(j)
     return results
+
+    @app.route('/', methods=['GET'])
+    def method():
+    	taskprint_hello.apply_async(countdown(5))
