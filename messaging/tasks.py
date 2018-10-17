@@ -24,9 +24,14 @@ def gen_prime(x):
     return str(results) + '\n'
 
 @celery.task
-def return_row():
+def return_text():
 	with open("/home/ubuntu/data/0c7526e6-ce8c-4e59-884c-5a15bbca5eb3", 'r') as infile:
-		return (infile.read(100))
+		rows = infile.readlines()
+
+	filtered = list(filter(lambda x: x != '\n', rows))
+	text = list(map(lambda x: json.loads(x)['text'].encode('utf-8'), filtered))
+
+	return text
 
 @app.route('/row', methods=['GET'])
 def row():
