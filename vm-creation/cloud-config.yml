@@ -14,6 +14,7 @@ packages:
 runcmd:
     - [cd, /home/ubuntu/]
     - [pip, install, celery]
+    - [pip, install, flask]
     - [git, clone, "https://github.com/xscanpix/acc-a3.git"]
     - [cd, ./acc-a3/messaging]
-    - [celery, worker, -A, tasks]
+    - [celery, worker, -A, tasks, "&"]

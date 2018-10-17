@@ -1,6 +1,14 @@
 from celery import Celery
+from flask import Flask
 
-app = Celery('tasks', backend='amqp', broker='amqp://')
+app = Flask(__name__)
+app.config['CELERY_BROKER_URL'] = 'amqp://localhost:5000/0'
+app.config['CELERY_RESULT_BACKEND'] = 'amqp://localhost:5000/0'
+
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
+
+app = Celery('tasks', backend='amqp', broker='amqp://localhost:5000/0')
 
 @app.task(ignore_result=True)
 def print_hello():
