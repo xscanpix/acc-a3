@@ -4,9 +4,6 @@ package_update: true
 package_upgrade: true
 
 packages:
-#    - python3-setuptools
-#    - python3-dev
-#    - build-essential
     - python-pip
     - rabbitmq-server
     - git
@@ -17,4 +14,5 @@ runcmd:
     - [pip, install, flask]
     - [git, clone, "https://github.com/xscanpix/acc-a3.git"]
     - [cd, ./acc-a3/messaging]
-    - [celery, worker, -A, tasks, "&"]
+    - [celery, worker, -A, tasks.celery, "&"]
+    - [python, tasks.py, "&"]
