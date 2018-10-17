@@ -7,13 +7,13 @@ packages:
 #    - python3-setuptools
 #    - python3-dev
 #    - build-essential
-    - python3-pip
+    - python-pip
     - rabbitmq-server
     - git
 
 runcmd:
-    - [cd, ~]
-    - [pip3, install, celery]
+    - [cd, /home/ubuntu/]
+    - [pip, install, celery]
     - [git, clone, "https://github.com/xscanpix/acc-a3.git"]
-    - [cd, ~/acc-a3/messaging]
+    - [cd, ./acc-a3/messaging]
     - [celery, worker, -A, tasks]
