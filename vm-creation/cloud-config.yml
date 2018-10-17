@@ -13,7 +13,7 @@ packages:
 
 runcmd:
     - [git, clone, "https://github.com/xscanpix/acc-a3.git"]
-    - [cp, acc-a3/messaging, ~/]
+    - [cp, -r, acc-a3/messaging, ~/]
     - [cd, ~/messaging]
     - [virtualenv, --no-site-packages, venv]
     - [source, venv/bin/activate]
