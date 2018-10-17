@@ -33,9 +33,9 @@ def return_text():
 
 	return text
 
-@app.route('/row', methods=['GET'])
-def row():
-	return return_row()
+@app.route('/text', methods=['GET'])
+def text():
+	return return_text()
 
 @app.route('/prime', methods=['GET'])
 def prime():
