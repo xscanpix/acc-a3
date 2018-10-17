@@ -11,7 +11,8 @@ packages:
     - rabbitmq-server
 
 runcmd:
-    - [pip, install, celery]
+    - [cd, ~]
+    - [pip3, install, celery]
     - [git, clone, "https://github.com/xscanpix/acc-a3.git"]
     - [cd, ~/acc-a3/messaging]
     - [celery, worker, -A, tasks]
