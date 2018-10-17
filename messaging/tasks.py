@@ -10,7 +10,7 @@ celery.conf.update(app.config)
 
 @celery.task
 def print_hello():
-    return 'hello there'
+    return 'hello there\n'
 
 @celery.task
 def gen_prime(x):
@@ -21,7 +21,16 @@ def gen_prime(x):
             results.append(i)
             for j in xrange(i*i, x+1, i):
                 multiples.append(j)
-    return str(results)
+    return str(results) + '\n'
+
+@celery.task
+def return_row():
+	with open("/home/ubuntu/data/0c7526e6-ce8c-4e59-884c-5a15bbca5eb3", 'r') as infile:
+		return (infile.read(100))
+
+@app.route('/row', methods=['GET'])
+def row():
+	return return_row()
 
 @app.route('/prime', methods=['GET'])
 def prime():
