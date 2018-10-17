@@ -21,7 +21,7 @@ def gen_prime(x):
             results.append(i)
             for j in xrange(i*i, x+1, i):
                 multiples.append(j)
-    return results
+    return str(results)
 
 @app.route('/prime', methods=['GET'])
 def prime():
@@ -32,4 +32,4 @@ def hello():
 	return print_hello()
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(host='0.0.0.0', debug=True, port=5000)
