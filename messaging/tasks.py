@@ -1,5 +1,6 @@
 from celery import Celery
 from flask import Flask
+import json
 
 app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://'
