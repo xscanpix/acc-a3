@@ -45,7 +45,7 @@ resources:
     type: OS::Neutron::FloatingIPAssociation
     properties:
       floatingip_id: { get_resource: floating_ip }
-      port_id: { get_resource: master_port }
+      port_id: { get_resource: master_port_external }
 
   router: 
     type: OS::Neutron::Router
