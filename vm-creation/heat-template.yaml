@@ -94,7 +94,7 @@ resources:
       user_data_format: SOFTWARE_CONFIG
   
   slave_port:
-    type: OS::Nova::Port
+    type: OS::Neutron::Port
     properties:
       network: { get_resource: private_subnetwork }
       security_groups:
