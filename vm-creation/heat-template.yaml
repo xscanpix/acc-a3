@@ -68,10 +68,16 @@ resources:
       cidr: 10.10.10.0/24
       network_id: { get_resource: private_network }
 
-  master_port:
+  master_port_external:
     type: OS::Neutron::Port
     network: { get_resource: private_network }
     security_groups:
+    - { get_resource: cluster_sg }
+
+  master_port_internal:
+    type: OS::Neutron::Port
+    network: { get_resource: private_subnetwork }
+    security_groups: 
     - { get_resource: cluster_sg }
 
   master_server:
@@ -80,11 +86,18 @@ resources:
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key }
-      networks:
-      - port: { get_resource: master_port }
-      - network: { get_resource: private_subnetwork }
+      networks: 
+      - port: { get_resource: master_port_external }
+      - port: { get_resource: master_port_internal }
       user_data_format: SOFTWARE_CONFIG
   
+  slave_port:
+    type: OS::Nova::Port
+    properties:
+      network: { get_resource: private_subnetwork }
+      security_groups:
+      - { get_resource: cluster_sg }
+
   slave_server:
     type: OS::Nova::Server
     properties:
@@ -92,7 +105,7 @@ resources:
       flavor: { get_param: flavor }
       key_name: { get_param: key }
       networks:
-        network: { get_resource: private_subnetwork }
+      - port: { get_resource: slave_port }
       user_data_format: SOFTWARE_CONFIG
 
 outputs:
