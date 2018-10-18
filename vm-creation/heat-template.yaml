@@ -23,8 +23,31 @@ parameters:
     label: Private network name or ID
     description: Network to attach instance to
     default: "SNIC 2018/10-30 Internal IPv4 Network"
+  public_network:
+    type: string
+    label: Public network name or ID
+    description: Public for floating ips
+    default: "Public External IPv4 network"
 
 resources:
+  configuration:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      group: script
+      config: |
+        #!/bin/bash -v
+        setenforce 0
+        yum -y install docker-io
+        cp /usr/lib/systemd/system/docker.service /etc/systemd/system/
+        sed -i -e '/ExecStart/ { s,fd://,tcp://0.0.0.0:2375, }' /etc/systemd/system/docker.service
+        systemctl start docker.service
+
+  deployment:
+    type: OS::Heat::SoftwareDeployment
+    properties:
+      config: { get_resource: configuration }
+      server: { get_resource: svni-test-instance }
+
   svni-test-instance:
     type: OS::Nova::Server
     properties:
@@ -33,6 +56,18 @@ resources:
       key_name: { get_param: key }
       networks:
         - network: { get_param: private_network }
+      user_data_format: SOFTWARE_CONFIG
+
+    server_floating_ip:
+      type: OS::Nova::FloatingIP
+      properties:
+        pool: { get_param: public_network }
+
+    associate_floating_ip:
+      type: OS::Nova::FloatingIPAssociation
+      properties: 
+        floating_ip: { get_resource: server_floating_ip }
+        server_id: { get_resource: svni-test-instance }
 
 outputs:
   instance_ip:
