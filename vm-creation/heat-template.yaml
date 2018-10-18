@@ -46,7 +46,7 @@ resources:
     type: OS::Neutron::FloatingIPAssociation
     properties:
       floatingip_id: { get_resource: floating_ip }
-      server_id: { get_resource: master_server }
+      network_id: { get_resource: private_network }
 
 # Routers
   router: 
@@ -61,6 +61,14 @@ resources:
       router_id: { get_resource: router }
       subnet: { get_resource: private_network }
 
+#Ports
+  external_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: private_network }
+      security_groups:
+      - { get_resource: cluster_sg }
+
 # Networks
   private_network:
     type: OS::Neutron::Net
@@ -73,7 +81,7 @@ resources:
       flavor: { get_param: flavor }
       key_name: { get_param: key }
       networks: 
-      - network: { get_resource: private_network }
+      - port: { get_resource: external_port }
       user_data_format: SOFTWARE_CONFIG
   
 outputs:
