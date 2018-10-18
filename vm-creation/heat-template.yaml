@@ -72,7 +72,7 @@ resources:
 # Networks
   private_network:
     type: OS::Neutron::Net
-  private_subnet:
+  private_subnetwork:
     type: OS::Neutron::Subnet
     properties:
       cidr: 10.10.10.0/24
