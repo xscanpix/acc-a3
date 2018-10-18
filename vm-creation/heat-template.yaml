@@ -35,6 +35,9 @@ resources:
         - protocol: tcp
           port_range_min: 22
           port_range_max: 22
+        - protocol: tcp
+          port_range_min: 5000
+          port_range_max: 5000
   
 # IPs
   floating_ip:
@@ -108,15 +111,15 @@ resources:
             - 'pip install flask'
             - 'cd /home/ubuntu'
             - 'git clone "https://github.com/xscanpix/acc-a3.git"'
-            - 'cd /home/ubuntu/acc-a3/vm-creation'
-            - 'export OS_AUTH_URL=https://uppmax.cloud.snic.se:5000/v3'
-            - 'export OS_USERNAME="s11784"'
-            - 'export OS_PASSWORD="apipassword1"'
-            - 'unset OS_TENANT_ID'
-            - 'unset OS_TENANT_NAME'
-            - 'swift auth'
-            - 'cd /home/ubuntu'
-            - 'swift download svni7746-c3 data -p 0'
+#            - 'cd /home/ubuntu/acc-a3/vm-creation'
+#            - 'export OS_AUTH_URL=https://uppmax.cloud.snic.se:5000/v3'
+#            - 'export OS_USERNAME="s11784"'
+#            - 'export OS_PASSWORD="apipassword1"'
+#            - 'unset OS_TENANT_ID'
+#            - 'unset OS_TENANT_NAME'
+#            - 'swift auth'
+#            - 'cd /home/ubuntu'
+#            - 'swift download svni7746-c3 data -p 0'
             - 'cd /home/ubuntu/acc-a3/messaging'
             - 'celery worker -A tasks.celery --loglevel=info &'
             - 'python tasks.py &'
