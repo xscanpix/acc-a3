@@ -90,11 +90,4 @@ resources:
       networks: 
       - port: { get_resource: master_port }
       user_data_format: SOFTWARE_CONFIG
-      user_data: { get_resource: master_config }
-
-# Softwareconfigs
-  master_config:
-    type: OS::Heat::CloudConfig
-    properties:
-      cloud_config: |
-      { get_file: cloud-config.yml }
+      user_data: { get_file: cloud-config.yml }
