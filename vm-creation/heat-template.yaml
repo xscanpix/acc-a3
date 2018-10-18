@@ -97,16 +97,13 @@ resources:
     type: OS::Heat::CloudConfig
     properties:
       cloud_config: 
-        #cloud-config
-
+        merge_how: 'dict(recurse_array,no_replace)+list(append)'
         package_update: true
         package_upgrade: true
-
         packages:
           - python-pip
           - rabbitmq-server
           - git
-
         runcmd:
           - 'pip install python-keystoneclient'
           - 'pip install python-swiftclient'
