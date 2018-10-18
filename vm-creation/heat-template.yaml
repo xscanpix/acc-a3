@@ -96,4 +96,5 @@ resources:
   master_config:
     type: OS::Heat::CloudConfig
     properties:
-      cloud_config: { get_file: cloud-config.yml }
+      cloud_config: |
+      { get_file: cloud-config.yml }
