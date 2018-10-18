@@ -65,33 +65,13 @@ resources:
   private_network:
     type: OS::Neutron::Net
 
-  private_subnetwork:
-    type: OS::Neutron::Subnet
-    properties:
-      cidr: 10.10.10.0/24
-      network_id: { get_resource: private_network }
-
 # Ports
-  master_port_external:
+  master_port:
     type: OS::Neutron::Port
     properties:
      network: { get_resource: private_network }
      security_groups:
      - { get_resource: cluster_sg }
-
-  master_port_internal:
-    type: OS::Neutron::Port
-    properties:
-      network: { get_resource: private_subnetwork }
-      security_groups: 
-      - { get_resource: cluster_sg }
-
-  slave_port:
-    type: OS::Neutron::Port
-    properties:
-      network: { get_resource: private_subnetwork }
-      security_groups:
-      - { get_resource: cluster_sg }
 
 # Servers
   master_server:
@@ -101,20 +81,9 @@ resources:
       flavor: { get_param: flavor }
       key_name: { get_param: key }
       networks: 
-      - port: { get_resource: master_port_external }
-      - port: { get_resource: master_port_internal }
+      - port: { get_resource: master_port }
       user_data_format: SOFTWARE_CONFIG
   
-  slave_server:
-    type: OS::Nova::Server
-    properties:
-      image: { get_param: image }
-      flavor: { get_param: flavor }
-      key_name: { get_param: key }
-      networks:
-      - port: { get_resource: slave_port }
-      user_data_format: SOFTWARE_CONFIG
-
 outputs:
   master_ip:
     description: IP addresses of the master server
@@ -124,11 +93,3 @@ outputs:
     description: Name of the master server
     value:
       get_attr: [master_server, name]
-  slave_ip:
-    description: IP addresses of the instance1
-    value:
-      get_attr: [slave_server, first_address, floating_ip, floating_ip_address]
-  slave_name:
-    description: Name of the slave server
-    value:
-      get_attr: [slave_server, name]
