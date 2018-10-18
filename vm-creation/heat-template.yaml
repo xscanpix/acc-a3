@@ -46,7 +46,7 @@ resources:
     type: OS::Neutron::FloatingIPAssociation
     properties:
       floatingip_id: { get_resource: floating_ip }
-      port_id: { get_resource: private_network }
+      port_id: { get_resource: master_port }
 
 # Routers
   router: 
@@ -59,10 +59,10 @@ resources:
     type: OS::Neutron::RouterInterface
     properties:
       router_id: { get_resource: router }
-      subnet: { get_resource: private_network }
+      subnet: { get_resource: private_subnetwork }
 
 #Ports
-  external_port:
+  master_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: private_network }
@@ -72,6 +72,13 @@ resources:
 # Networks
   private_network:
     type: OS::Neutron::Net
+  private_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      cidr: 10.10.10.0/24
+      dns_nameservers: [130.238.164.6, 130.238.4.133, 130.238.7.10, 130.239.1.90,
+        129.16.1.53]
+      network_id: { get_resource: private_network }
 
 # Servers
   master_server:
@@ -81,15 +88,5 @@ resources:
       flavor: { get_param: flavor }
       key_name: { get_param: key }
       networks: 
-      - port: { get_resource: external_port }
+      - port: { get_resource: master_port }
       user_data_format: SOFTWARE_CONFIG
-  
-outputs:
-  master_ip:
-    description: IP addresses of the master server
-    value:
-      get_attr: [master_server, first_address, floating_ip, floating_ip_address]
-  master_name:
-    description: Name of the master server
-    value:
-      get_attr: [master_server, name]
