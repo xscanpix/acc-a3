@@ -1,13 +1,40 @@
 heat_template_version: 2013-05-23
 
-description: Hot Template to start a worker node vm
+description: Hot Template to start a stack
+
+parameters:
+  image:
+    type: string
+    label: Image name or ID
+    description: Image to be used for compute instance
+    default: "Ubuntu 16.04 LTS (Xenial Xerus) - latest"
+  flavor: 
+    type: string
+    label: Flavor
+    description: The flavor to be used
+    default: "ACCHT18.normal"
+  key:
+    type: string
+    label: Key name
+    description: Name of key-pair
+    default: 2svni7746
+  private_network:
+    type: string
+    label: Private network name or ID
+    description: Network to attach instance to
+    default: "SNIC 2018/10-30 Internal IPv4 Network"
 
 resources:
   svni-test-instance:
     type: OS::Nova::Server
     properties:
-      image: "Ubuntu 16.04 LTS (Xenial Xerus) - latest"
-      flavor: "ACCHT18.normal"
-      key_name: 2svni7746
+      image: { get_param: image }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key }
       networks:
-        - network: "SNIC 2018/10-30 Internal IPv4 Network"
+        - network: { get_param: private_network }
+
+outputs:
+  instance_ip:
+    description: IP address of the instance
+    value: { get_attr: [svni-test-instance, first_address] }
