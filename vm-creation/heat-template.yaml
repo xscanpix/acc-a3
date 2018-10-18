@@ -81,8 +81,8 @@ resources:
       flavor: { get_param: flavor }
       key_name: { get_param: key }
       networks:
-        - port: { get_resource: master_port }
-        network: { get_resource: private_subnetwork }
+      - port: { get_resource: master_port }
+      - network: { get_resource: private_subnetwork }
       user_data_format: SOFTWARE_CONFIG
   
   slave_server:
