@@ -48,13 +48,13 @@ resources:
       port_id: { get_resource: instance_port0 }
 
   instance_port0:
-    type: OS:Neutron::Port
+    type: OS::Neutron::Port
     properties: 
       network: { get_resource: private_network }
       security_groups: { get_resource: cluster_sg }
 
   instance_port1:
-    type: OS:Neutron::Port
+    type: OS::Neutron::Port
     properties: 
       network: { get_resource: private_network }
       security_groups: { get_resource: cluster_sg }
