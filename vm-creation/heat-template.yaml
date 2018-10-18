@@ -70,15 +70,17 @@ resources:
 
   master_port_external:
     type: OS::Neutron::Port
-    network: { get_resource: private_network }
-    security_groups:
-    - { get_resource: cluster_sg }
+    properties:
+     network: { get_resource: private_network }
+     security_groups:
+     - { get_resource: cluster_sg }
 
   master_port_internal:
     type: OS::Neutron::Port
-    network: { get_resource: private_subnetwork }
-    security_groups: 
-    - { get_resource: cluster_sg }
+    properties:
+      network: { get_resource: private_subnetwork }
+      security_groups: 
+      - { get_resource: cluster_sg }
 
   master_server:
     type: OS::Nova::Server
