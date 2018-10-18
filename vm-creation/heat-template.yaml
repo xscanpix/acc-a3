@@ -68,7 +68,7 @@ resources:
       security_groups:
       - { get_resource: cluster_sg }
       networks:
-        - port: { get_param: instance_port0 }
+        - port: { get_resource: instance_port0 }
       user_data_format: SOFTWARE_CONFIG
   
   my_instance0:
@@ -80,7 +80,7 @@ resources:
       security_groups:
       - { get_resource: cluster_sg }
       networks:
-        - port: { get_param: instance_port1 }
+        - port: { get_resource: instance_port1 }
       user_data_format: SOFTWARE_CONFIG
 
   private_network:
