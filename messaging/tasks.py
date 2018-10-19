@@ -54,7 +54,7 @@ def text():
 
 	sleep(10)
 
-	print "Task finished? " + result.ready())
+	print "Task finished? " + result.ready()
 	print "Task result ", result.result
 
 
