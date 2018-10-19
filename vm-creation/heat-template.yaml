@@ -9,6 +9,7 @@ parameters:
   os_username:
     type: string
     default: s11784
+  os_password:
   image:
     type: string
     label: Image name or ID
