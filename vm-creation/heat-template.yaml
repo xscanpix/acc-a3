@@ -5,14 +5,10 @@ description: Hot Template to start a stack
 parameters:
   os_auth_url:
     type: string
+    default: https://uppmax.cloud.snic.se:5000/v3
   os_username:
     type: string
-  os_password:
-    type: string
-  os_auth_token:
-    type: string
-  os_storage_url:
-    type: string
+    default: s11784
   image:
     type: string
     label: Image name or ID
