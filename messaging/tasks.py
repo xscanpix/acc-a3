@@ -49,13 +49,13 @@ def text():
 
 	result = return_text(data_paths[0]).delay(1,2)
 
-	print Task finished?, result.ready()
-	print Task result, result.result
+	print "Task finished? ", result.ready()
+	print "Task result ", result.result
 
 	sleep(10)
 
-	print Task finished?, result.ready()
-	print Task result, result.result
+	print "Task finished? " + result.ready())
+	print "Task result ", result.result
 
 
 	return result.result
