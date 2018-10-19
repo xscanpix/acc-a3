@@ -50,7 +50,7 @@ def text():
 	print "Task finished? ", result.ready()
 	print "Task result ", result.result
 
-	sleep(10)
+	time.sleep(10)
 
 	print "Task finished? " + result.ready()
 	print "Task result ", result.result
