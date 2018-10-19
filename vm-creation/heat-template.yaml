@@ -113,11 +113,11 @@ resources:
 
         write_files:
           - content: |
-            export OS_AUTH_URL=%os_auth_url%
-            export OS_USERNAME=%os_username%
-            export OS_PASSWORD=%os_password%
-            export OS_STORAGE_URL=%os_storage_url%
-            export OS_AUTH_TOKEN=%os_auth_token%
+              export OS_AUTH_URL=%os_auth_url%
+              export OS_USERNAME=%os_username%
+              export OS_PASSWORD=%os_password%
+              export OS_STORAGE_URL=%os_storage_url%
+              export OS_AUTH_TOKEN=%os_auth_token%
             path: /home/ubuntu/authcreds.sh
 
         runcmd:
