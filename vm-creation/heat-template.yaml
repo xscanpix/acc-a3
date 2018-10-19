@@ -112,9 +112,9 @@ resources:
             - 'cd /home/ubuntu'
             - 'git clone "https://github.com/xscanpix/acc-a3.git"'
             - 'cd /home/ubuntu/acc-a3/vm-creation'
-            - '. snic_auth.sh'
+            - 'bash snic_auth.sh'
             - 'swift auth > swift_auth.sh'
-            - '. swift_auth.sh'
+            - 'bash swift_auth.sh'
             - 'cd /home/ubuntu'
             - 'swift download svni7746-c3 -p data/0'
             - 'cd /home/ubuntu/acc-a3/messaging'
@@ -122,4 +122,3 @@ resources:
             - 'export FLASK_APP=tasks.py'
             - 'export FLASK_ENV=development'
             - 'flask run --host=0.0.0.0 &'
-            
