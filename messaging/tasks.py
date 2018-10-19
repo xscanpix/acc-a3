@@ -39,11 +39,11 @@ def text():
 
 	num_workers = 5
 
-	data_paths = ["data/05cb5036-2170-401b-947d-68f9191b21c6",
-				  "data/094b1612-1832-429e-98c1-ae06e56d88d6", 
-				  "data/0c7526e6-ce8c-4e59-884c-5a15bbca5eb3",
-				  "data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
-				  "data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
+	data_paths = ["/home/ubuntu/data/05cb5036-2170-401b-947d-68f9191b21c6",
+				  "/home/ubuntu/data/094b1612-1832-429e-98c1-ae06e56d88d6", 
+				  "/home/ubuntu/data/0c7526e6-ce8c-4e59-884c-5a15bbca5eb3",
+				  "/home/ubuntu/data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
+				  "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
 
 	result = []
 
