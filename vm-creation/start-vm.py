@@ -16,6 +16,7 @@ floating_ip_pool_name = "Public External IPv4 network"
 floating_ip = None
 image_name = "Ubuntu 16.04 LTS (Xenial Xerus) - latest"
 key = "2svni7746"
+instance_name = "svni7746-important"
 
 loader = loading.get_plugin_loader('password')
 
@@ -52,7 +53,7 @@ secgroups = ['default']
 
 if True:
     print "Creating instance ... "
-    instance = nova_client.servers.create(name="vm1", image=image, flavor=flavor, userdata=userdata, nics=nics, security_groups=secgroups)
+    instance = nova_client.servers.create(name=instance_name, image=image, flavor=flavor, userdata=userdata, nics=nics, security_groups=secgroups, key_name=key)
     inst_status = instance.status
     print "waiting for 10 seconds.. "
     time.sleep(10)
@@ -75,3 +76,5 @@ for ip in floating_ips:
 
 instance.add_floating_ip(free_floating_ips[0])
 
+env['vm-ip'] = str(free_floating_ips[0].ip)
+print(str(free_floating_ips[0].ip))

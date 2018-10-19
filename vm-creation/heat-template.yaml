@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 heat-template-version: 2013-05-23
 
 description: Hot Template to start a worker node vm
@@ -11,3 +12,129 @@ resources:
 			key_name: 2svni7746
 			networks:
 				- network: "SNIC 2018/10-30 Internal IPv4 Network"
+=======
+heat_template_version: 2013-05-23
+
+description: Hot Template to start a stack
+
+parameters:
+  image:
+    type: string
+    label: Image name or ID
+    description: Image to be used for compute instance
+    default: "Ubuntu 16.04 LTS (Xenial Xerus) - latest"
+  flavor: 
+    type: string
+    label: Flavor
+    description: The flavor to be used
+    default: "ACCHT18.normal"
+  key:
+    type: string
+    label: Key name
+    description: Name of key-pair
+    default: 2svni7746
+  public_network:
+    type: string
+    label: Public network name or ID
+    description: Public for floating ips
+    default: "Public External IPv4 network"
+
+resources:
+  cluster_sg:
+    type: OS::Neutron::SecurityGroup
+    properties: 
+      name: svni_cluster_sg
+      description: SSH
+      rules:
+        - protocol: icmp
+        - protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+        - protocol: tcp
+          port_range_min: 5000
+          port_range_max: 5000
+  
+# IPs
+  floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties: 
+      floating_network: { get_param: public_network }
+
+  floating_ip_assoc:
+    type: OS::Neutron::FloatingIPAssociation
+    properties:
+      floatingip_id: { get_resource: floating_ip }
+      port_id: { get_resource: master_port }
+
+# Routers
+  router: 
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: public_network }
+
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet: { get_resource: private_subnetwork }
+
+#Ports
+  master_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: private_network }
+      security_groups:
+      - { get_resource: cluster_sg }
+
+# Networks
+  private_network:
+    type: OS::Neutron::Net
+  private_subnetwork:
+    type: OS::Neutron::Subnet
+    properties:
+      cidr: 10.10.10.0/24
+      dns_nameservers: [130.238.164.6, 130.238.4.133, 130.238.7.10, 130.239.1.90,
+        129.16.1.53]
+      network_id: { get_resource: private_network }
+
+# Servers
+  master_server:
+    type: OS::Nova::Server
+    properties:
+      image: { get_param: image }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key }
+      networks: 
+      - port: { get_resource: master_port }
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+
+        package_update: true
+        package_upgrade: true
+
+        packages:
+            - python-pip
+            - rabbitmq-server
+            - git
+
+        runcmd:
+            - 'pip install python-keystoneclient'
+            - 'pip install python-swiftclient'
+            - 'pip install celery'
+            - 'pip install flask'
+            - 'cd /home/ubuntu'
+            - 'git clone "https://github.com/xscanpix/acc-a3.git"'
+            - 'cd /home/ubuntu/acc-a3/vm-creation'
+            - '. snic_auth.sh'
+            - 'swift auth > swift_auth.sh'
+            - '. swift_auth.sh'
+            - 'cd /home/ubuntu'
+            - 'swift download svni7746-c3 -p data/0'
+            - 'cd /home/ubuntu/acc-a3/messaging'
+            - 'celery worker -A tasks.celery --loglevel=info &'
+            - 'export FLASK_APP=tasks.py'
+            - 'export FLASK_ENV=development'
+            - 'flask run --host=0.0.0.0 &'
+>>>>>>> heat-stack
