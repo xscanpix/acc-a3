@@ -14,7 +14,7 @@ parameters:
     default: UPPMAX
   os_project_name:
     type: string
-    default: SNIC 2018/10-30
+    default: SNIC\ 2018/10-30
   os_user_domain_name:
     type: string
     default: snic
