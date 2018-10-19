@@ -12,6 +12,10 @@ parameters:
   os_password:
     type: string
     hidden: true
+  os_storage_url:
+    type: string
+  os_auth_token:
+    type: string
   image:
     type: string
     label: Image name or ID
@@ -108,6 +112,8 @@ resources:
             $os_auth_url: { get_param: os_auth_url }
             $os_username: { get_param: os_username }
             $os_password: { get_param: os_password }
+            $os_storage_url: { get_param: os_storage_url }
+            $os_auth_token: { get_param: os_auth_token }
           template: |
             #cloud-config
 
