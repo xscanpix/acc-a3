@@ -102,9 +102,9 @@ resources:
       user_data: 
         str_replace: 
           params:
-            "%os_auth_url%": { get_param: os_auth_url }
-            "%os_username%": { get_param: os_username }
-            "%os_password%": { get_param: os_password }
+            os_auth_url: { get_param: os_auth_url }
+            os_username: { get_param: os_username }
+            os_password: { get_param: os_password }
           template: |
             #cloud-config
 
@@ -118,9 +118,9 @@ resources:
 
             write_files:
               - content: |
-                  export OS_AUTH_URL=%os_auth_url%
-                  export OS_USERNAME=%os_username%
-                  export OS_PASSWORD=%os_password%
+                  export OS_AUTH_URL=os_auth_url
+                  export OS_USERNAME=os_username
+                  export OS_PASSWORD=os_password
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
