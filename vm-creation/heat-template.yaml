@@ -116,8 +116,8 @@ resources:
               export OS_AUTH_URL=%os_auth_url%
               export OS_USERNAME=%os_username%
               export OS_PASSWORD=%os_password%
-              export OS_STORAGE_URL=%os_storage_url%
               export OS_AUTH_TOKEN=%os_auth_token%
+              export OS_STORAGE_URL=%os_storage_url%
             path: /home/ubuntu/authcreds.sh
 
         runcmd:
@@ -128,7 +128,6 @@ resources:
             - 'pip install flask'
             - 'cd /home/ubuntu'
             - 'git clone "https://github.com/xscanpix/acc-a3.git"'
-            - 'cd /home/ubuntu/acc-a3/vm-creation'
             - 'cd /home/ubuntu'
             - 'swift download svni7746-c3 -p data/0'
             - 'cd /home/ubuntu/acc-a3/messaging'
