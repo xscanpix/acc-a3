@@ -9,6 +9,24 @@ parameters:
   os_username:
     type: string
     default: s11784
+  os_region_name:
+    type: string
+    default: UPPMAX
+  os_project_name:
+    type: string
+    default: SNIC 2018/10-30
+  os_user_domain_name:
+    type: string
+    default: snic
+  os_identity_api_version:
+    type: string
+    default: 3
+  os_interface:
+    type: string
+    default: public
+  os_project_id:
+    type: string
+    default: 2344cddf33a1412b846290a9fb90b762
   os_password:
     type: string
     hidden: true
@@ -114,6 +132,12 @@ resources:
             $os_password: { get_param: os_password }
             $os_storage_url: { get_param: os_storage_url }
             $os_auth_token: { get_param: os_auth_token }
+            $os_project_id: { get_param: os_project_id }
+            $os_project_name: { get_param: os_project_name }
+            $os_interface: { get_param: os_interface }
+            $os_region_name: { get_param: os_region_name }
+            $os_identity_api_version: { get_param: os_identity_api_version }
+            $os_user_domain_name: { get_param: os_user_domain_name }
           template: |
             #cloud-config
 
@@ -130,6 +154,14 @@ resources:
                   export OS_AUTH_URL=$os_auth_url
                   export OS_USERNAME=$os_username
                   export OS_PASSWORD=$os_password
+                  export OS_STORAGE_URL=$os_storage_url
+                  export OS_AUTH_TOKEN=$os_auth_token
+                  export OS_PROJECT_ID=$os_project_id
+                  export OS_PROJECT_NAME=$os_project_name
+                  export OS_INTERFACE=$os_interface
+                  export OS_REGION_NAME=$os_region_name
+                  export OS_IDENTITY_API_VERSION=$os_identity_api_version
+                  export OS_USER_DOMAIN_NAME=$os_user_domain_name
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
