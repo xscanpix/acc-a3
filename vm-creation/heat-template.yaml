@@ -1,4 +1,4 @@
-heat_template_version: 2013-05-23
+heat_template_version: 2015-10-15
 
 description: Hot Template to start a stack
 
@@ -10,6 +10,8 @@ parameters:
     type: string
     default: s11784
   os_password:
+    type: string
+    hidden: true
   image:
     type: string
     label: Image name or ID
@@ -103,9 +105,9 @@ resources:
       user_data: 
         str_replace: 
           params:
-            os_auth_url: { get_param: os_auth_url }
-            os_username: { get_param: os_username }
-            os_password: { get_param: os_password }
+            $os_auth_url: { get_param: os_auth_url }
+            $os_username: { get_param: os_username }
+            $os_password: { get_param: os_password }
           template: |
             #cloud-config
 
@@ -119,9 +121,9 @@ resources:
 
             write_files:
               - content: |
-                  export OS_AUTH_URL=os_auth_url
-                  export OS_USERNAME=os_username
-                  export OS_PASSWORD=os_password
+                  export OS_AUTH_URL=$os_auth_url
+                  export OS_USERNAME=$os_username
+                  export OS_PASSWORD=$os_password
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
