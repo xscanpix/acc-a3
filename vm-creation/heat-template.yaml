@@ -133,7 +133,7 @@ resources:
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
-                - 'bash /home/ubuntu/authcreds.sh'
+                - '. /home/ubuntu/authcreds.sh'
                 - 'pip install python-keystoneclient'
                 - 'pip install python-swiftclient'
                 - 'pip install celery'
@@ -145,3 +145,6 @@ resources:
                 - 'cd /home/ubuntu/acc-a3/messaging'
                 - 'celery worker -A tasks.celery --loglevel=info &'
                 - 'flask run --host=0.0.0.0 &'
+
+output:
+  os_auth_token:
