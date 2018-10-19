@@ -9,12 +9,6 @@ parameters:
   os_username:
     type: string
     default: s11784
-  os_password:
-    type: string
-  os_storage_url:
-    type: string
-  os_auth_token:
-    type: string
   image:
     type: string
     label: Image name or ID
@@ -107,41 +101,42 @@ resources:
       user_data_format: RAW
       user_data: 
         str_replace: 
-          "%os_auth_url%": { get_param: os_auth_url }
-          "%os_username%": { get_param: os_username }
-          "%os_password%": { get_param: os_password }
-          "%os_storage_url%": { get_param: os_storage_url }
-          "%os_auth_token%": { get_param: os_auth_token }
-        template: |
-        #cloud-config
+          params:
+            "%os_auth_url%": { get_param: os_auth_url }
+            "%os_username%": { get_param: os_username }
+            "%os_password%": { get_param: os_password }
+            "%os_storage_url%": { get_param: os_storage_url }
+            "%os_auth_token%": { get_param: os_auth_token }
+          template: |
+            #cloud-config
 
-        package_update: true
-        package_upgrade: true
+            package_update: true
+            package_upgrade: true
 
-        packages:
-            - python-pip
-            - rabbitmq-server
-            - git
+            packages:
+                - python-pip
+                - rabbitmq-server
+                - git
 
-        write_files:
-          - content: |
-              export OS_AUTH_URL=%os_auth_url%
-              export OS_USERNAME=%os_username%
-              export OS_PASSWORD=%os_password%
-              export OS_AUTH_TOKEN=%os_auth_token%
-              export OS_STORAGE_URL=%os_storage_url%
-            path: /home/ubuntu/authcreds.sh
+            write_files:
+              - content: |
+                  export OS_AUTH_URL=%os_auth_url%
+                  export OS_USERNAME=%os_username%
+                  export OS_PASSWORD=%os_password%
+                  export OS_AUTH_TOKEN=%os_auth_token%
+                  export OS_STORAGE_URL=%os_storage_url%
+                path: /home/ubuntu/authcreds.sh
 
-        runcmd:
-            - 'bash /home/ubuntu/authcreds.sh'
-            - 'pip install python-keystoneclient'
-            - 'pip install python-swiftclient'
-            - 'pip install celery'
-            - 'pip install flask'
-            - 'cd /home/ubuntu'
-            - 'git clone "https://github.com/xscanpix/acc-a3.git"'
-            - 'cd /home/ubuntu'
-            - 'swift download svni7746-c3 -p data/0'
-            - 'cd /home/ubuntu/acc-a3/messaging'
-            - 'celery worker -A tasks.celery --loglevel=info &'
-            - 'flask run --host=0.0.0.0 &'
+            runcmd:
+                - 'bash /home/ubuntu/authcreds.sh'
+                - 'pip install python-keystoneclient'
+                - 'pip install python-swiftclient'
+                - 'pip install celery'
+                - 'pip install flask'
+                - 'cd /home/ubuntu'
+                - 'git clone "https://github.com/xscanpix/acc-a3.git"'
+                - 'cd /home/ubuntu'
+                - 'swift download svni7746-c3 -p data/0'
+                - 'cd /home/ubuntu/acc-a3/messaging'
+                - 'celery worker -A tasks.celery --loglevel=info &'
+                - 'flask run --host=0.0.0.0 &'
