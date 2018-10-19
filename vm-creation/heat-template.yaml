@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-heat-template-version: 2013-05-23
-
-description: Hot Template to start a worker node vm
-
-resources:
-	svni-test-instance:
-		type: OS::Nova::Server
-		properties:
-			image: "Ubuntu 16.04 LTS (Xenial Xerus) - latest"
-			flavor: "ACCHT18.normal"
-			key_name: 2svni7746
-			networks:
-				- network: "SNIC 2018/10-30 Internal IPv4 Network"
-=======
 heat_template_version: 2013-05-23
 
 description: Hot Template to start a stack
