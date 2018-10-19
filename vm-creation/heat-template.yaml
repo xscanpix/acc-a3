@@ -66,9 +66,12 @@ resources:
         - protocol: tcp
           port_range_min: 22
           port_range_max: 22
-        - protocol: tcp
+        - protocol: tcp # Flask server
           port_range_min: 5000
           port_range_max: 5000
+        - protocol: tcp # Flower service
+          port_range_min: 5555
+          port_range_max: 5555
   
 # IPs
   floating_ip:
@@ -177,7 +180,7 @@ resources:
                 - 'cd /home/ubuntu'
                 - 'swift download svni7746-c3 -p data/0'
                 - 'cd /home/ubuntu/acc-a3/messaging'
-                - 'celery worker -A tasks.celery --loglevel=info &'
+                - 'celery worker -A tasks.celery --autoscale=10,3 --loglevel=info &'
                 - 'flask run --host=0.0.0.0 &'
 
 outputs:
