@@ -105,8 +105,6 @@ resources:
             "%os_auth_url%": { get_param: os_auth_url }
             "%os_username%": { get_param: os_username }
             "%os_password%": { get_param: os_password }
-            "%os_storage_url%": { get_param: os_storage_url }
-            "%os_auth_token%": { get_param: os_auth_token }
           template: |
             #cloud-config
 
@@ -123,8 +121,6 @@ resources:
                   export OS_AUTH_URL=%os_auth_url%
                   export OS_USERNAME=%os_username%
                   export OS_PASSWORD=%os_password%
-                  export OS_AUTH_TOKEN=%os_auth_token%
-                  export OS_STORAGE_URL=%os_storage_url%
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
