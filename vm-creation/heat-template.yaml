@@ -162,6 +162,8 @@ resources:
                   export OS_REGION_NAME=$os_region_name
                   export OS_IDENTITY_API_VERSION=$os_identity_api_version
                   export OS_USER_DOMAIN_NAME=$os_user_domain_name
+                  export FLASK_APP=/home/ubuntu/acc-a3/messaging/tasks.py
+                  export FLASK_ENV=development
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
