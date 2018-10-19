@@ -146,7 +146,7 @@ resources:
                 - 'celery worker -A tasks.celery --loglevel=info &'
                 - 'flask run --host=0.0.0.0 &'
 
-output:
+outputs:
   os_auth_token:
     description: The os_auth_token
     value: { get_param: os_auth_token }
