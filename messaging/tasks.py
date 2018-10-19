@@ -45,9 +45,7 @@ def text():
 				  "/home/ubuntu/data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
 				  "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
 
-	result = []
-
-	result = return_text(data_paths[0]).delay(1,2)
+	result = return_text.delay(data_paths[0])
 
 	print "Task finished? ", result.ready()
 	print "Task result ", result.result
