@@ -93,7 +93,14 @@ resources:
       networks: 
       - port: { get_resource: master_port }
       user_data_format: RAW
-      user_data: |
+      user_data: 
+        str_replace: 
+          "%os_auth_url%": { get_param: os_auth_url }
+          "%os_username%": { get_param: os_username }
+          "%os_password%": { get_param: os_password }
+          "%os_storage_url%": { get_param: os_storage_url }
+          "%os_auth_token%": { get_param: os_auth_token }
+        template: |
         #cloud-config
 
         package_update: true
@@ -104,7 +111,17 @@ resources:
             - rabbitmq-server
             - git
 
+        write_files:
+          - content: |
+            export OS_AUTH_URL=%os_auth_url%
+            export OS_USERNAME=%os_username%
+            export OS_PASSWORD=%os_password%
+            export OS_STORAGE_URL=%os_storage_url%
+            export OS_AUTH_TOKEN=%os_auth_token%
+            path: /home/ubuntu/authcreds.sh
+
         runcmd:
+            - 'bash /home/ubuntu/authcreds.sh'
             - 'pip install python-keystoneclient'
             - 'pip install python-swiftclient'
             - 'pip install celery'
@@ -112,13 +129,8 @@ resources:
             - 'cd /home/ubuntu'
             - 'git clone "https://github.com/xscanpix/acc-a3.git"'
             - 'cd /home/ubuntu/acc-a3/vm-creation'
-            - 'bash snic_auth.sh'
-            - 'swift auth > swift_auth.sh'
-            - 'bash swift_auth.sh'
             - 'cd /home/ubuntu'
             - 'swift download svni7746-c3 -p data/0'
             - 'cd /home/ubuntu/acc-a3/messaging'
             - 'celery worker -A tasks.celery --loglevel=info &'
-            - 'export FLASK_APP=tasks.py'
-            - 'export FLASK_ENV=development'
             - 'flask run --host=0.0.0.0 &'
