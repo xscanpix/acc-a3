@@ -148,3 +148,9 @@ resources:
 
 output:
   os_auth_token:
+    description: The os_auth_token
+    value: { get_param: os_auth_token }
+  os_storage_url:
+    description: The os_storage_url
+    value: { get_param: os_auth_token }
+
