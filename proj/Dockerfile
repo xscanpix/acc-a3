@@ -1,6 +1,8 @@
 FROM python:2.7-slim
 
 ENV PYTHONUNBUFFERED 1
+ENV FLASK_APP=proj/celery.py
+ENV FLASK_ENV=development
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r /code/requirements.txt
