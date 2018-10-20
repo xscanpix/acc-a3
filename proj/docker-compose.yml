@@ -9,7 +9,7 @@ services:
       - '15672:15672'
   flask:
     build: .
-    command: python proj/tasks.py -m flask run --host=0.0.0.0
+    command: flask run --host=0.0.0.0
     ports:
       - '5000:5000'
     volumes: 
