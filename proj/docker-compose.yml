@@ -2,11 +2,17 @@ version: '2'
 
 services:
   rabbitmq:
-    image: 'rabbitmq: latest'
-    volumes:
-      - 'rabbitmq:/data'
+    image: 'rabbitmq: 3'
+    hostname: rabbit1
     ports:
-      - '5000:5000'
+      - '5672:5672'
+    environment: 
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    labels:
+      NAME: rabbitmq1
 
   flask:
     build: .
