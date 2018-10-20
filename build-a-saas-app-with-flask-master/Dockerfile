@@ -1,9 +1,6 @@
 FROM python:2.7-slim
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
-RUN apt-get update && apt-get install -qq -y \
-  build-essential libpq-dev --no-install-recommends
-
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
