@@ -1,6 +1,10 @@
 from celery import shared_task
 
 @shared_task
+def hello():
+    return 'Hello there!'
+
+@shared_task
 def gen_prime(x):
     multiples = []
     results = []
