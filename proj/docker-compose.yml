@@ -14,13 +14,13 @@ services:
     volumes:
       - '.:.'
     ports:
-      - '8000:8000'
+      - '5000:5000'
 
   celery:
     build: .
     command: celery worker -l info -A tasks
     volumes:
       - '.:.'
-  
+
 volumes:
   rabbitmq:
