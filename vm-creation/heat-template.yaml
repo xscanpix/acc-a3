@@ -170,15 +170,11 @@ resources:
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
-                - '. /home/ubuntu/authcreds.sh'
-                - 'pip install python-keystoneclient'
-                - 'pip install python-swiftclient'
-                - 'pip install celery'
-                - 'pip install flask'
-                - 'pip install flower'
                 - 'cd /home/ubuntu'
                 - 'git clone "https://github.com/xscanpix/acc-a3.git"'
-                - 'cd /home/ubuntu'
+                - 'python -m pip install --upgrade pip'
+                - 'pip install -r /home/ubuntu/acc-a3/proj/requirements.txt
+                - '. authcreds.sh'    
                 - 'swift download svni7746-c3 -p data/0'
                 - 'cd /home/ubuntu/acc-a3/messaging'
                 - 'celery worker -E -A tasks.celery --autoscale=10,3 --loglevel=info &'

@@ -9,21 +9,11 @@ app.config['CELERY_RESULT_BACKEND'] = 'amqp://'
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
+celery.autodiscover_tasks()
 
-@celery.task
-def print_hello():
-    return 'hello there\n'
-
-@celery.task
-def gen_prime(x):
-    multiples = []
-    results = []
-    for i in xrange(2, x+1):
-        if i not in multiples:
-            results.append(i)
-            for j in xrange(i*i, x+1, i):
-                multiples.append(j)
-    return str(results) + '\n'
+@celery.task(bind=True)
+def debug_task(self):
+    print('Request: {0!r}'.format(self.request))
 
 @celery.task
 def return_text(data_path):
