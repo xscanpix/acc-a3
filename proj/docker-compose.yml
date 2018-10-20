@@ -12,9 +12,11 @@ services:
     command: flask run --host=0.0.0.0
     ports:
       - '5000:5000'
+    volumes: 
+      - .:/code
   celery:
     build: .
-    command: celery worker -l info -A proj
+    command: celery worker -l info -A tasks.celery
     volumes:
       - .:/code
     depends_on:
