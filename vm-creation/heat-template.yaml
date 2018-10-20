@@ -175,12 +175,13 @@ resources:
                 - 'pip install python-swiftclient'
                 - 'pip install celery'
                 - 'pip install flask'
+                - 'pip install flower'
                 - 'cd /home/ubuntu'
                 - 'git clone "https://github.com/xscanpix/acc-a3.git"'
                 - 'cd /home/ubuntu'
                 - 'swift download svni7746-c3 -p data/0'
                 - 'cd /home/ubuntu/acc-a3/messaging'
-                - 'celery worker -A tasks.celery --autoscale=10,3 --loglevel=info &'
+                - 'celery worker -E -A tasks.celery --autoscale=10,3 --loglevel=info &'
                 - 'flask run --host=0.0.0.0 &'
 
 outputs:
