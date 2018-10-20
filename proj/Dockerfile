@@ -1,11 +1,13 @@
 FROM python:2.7-slim
 
-MAINTAINER Svante Nilsson <svante.n@live.se>
+ENV PYTHONUNBUFFERED 1
 
-WORKDIR .
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install -r /code/requirements.txt
 
-COPY requirements.txt requirements.txt
+COPY . /code/
+WORKDIR /code/
 
-COPY . .
-
-RUN pip install -r requirements.txt
+EXPOSE 8000
+EXPOSE 5000
+EXPOSE 5672

@@ -2,9 +2,14 @@ version: '2'
 
 services:
   rabbitmq:
-    image: 'rabbitmq:3'
+    hostname: rabbit
+    image: 'rabbitmq:3-management'
     ports:
       - '5672:5672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
 
   flask:
     build: .
@@ -14,4 +19,8 @@ services:
 
   celery:
     build: .
-    command: celery worker -l info -A tasks.celery
+    command: celery worker -l info -A proj
+    volumes:
+      - .:/code
+    depends_on:
+      - rabbitmq
