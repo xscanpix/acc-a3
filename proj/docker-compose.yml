@@ -2,7 +2,7 @@ version: '2'
 
 services:
   rabbitmq:
-    image: 'rabbitmq: 3'
+    image: 'rabbitmq:3'
     hostname: rabbit1
     ports:
       - '5672:5672'
