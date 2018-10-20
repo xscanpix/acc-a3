@@ -148,10 +148,17 @@ resources:
             package_upgrade: true
 
             packages:
-                - python-pip
-                - rabbitmq-server
-                - git
+              - docker-ce
+              - python-pip
+              - rabbitmq-server
+              - git
 
+            apt:
+              sources:
+                curtin-dev-ppa.list:
+                  source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable"
+                  keyid: 0EBFCD88
+                  
             write_files:
               - content: |
                   export OS_AUTH_URL=$os_auth_url
@@ -174,10 +181,9 @@ resources:
                 - 'git clone "https://github.com/xscanpix/acc-a3.git"'
                 - 'python -m pip install --upgrade pip'
                 - 'pip install -r /home/ubuntu/acc-a3/proj/requirements.txt
-                - '. authcreds.sh'    
+                - '. authcreds.sh'
                 - 'swift download svni7746-c3 -p data/0'
-                - 'cd /home/ubuntu/acc-a3/messaging'
-                - 'celery worker -E -A tasks.celery --autoscale=10,3 --loglevel=info &'
+                - 'celery worker -E -A acc-a3/messaging/tasks.celery --autoscale=10,3 --loglevel=info &'
                 - 'flask run --host=0.0.0.0 &'
 
 outputs:
