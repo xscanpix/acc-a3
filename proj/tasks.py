@@ -4,8 +4,8 @@ import json
 import time
 
 app = Flask(__name__)
-app.config['CELERY_BROKER_URL'] = 'amqp://rabbitmq:rabbitmq@localhost:5672'
-app.config['CELERY_RESULT_BACKEND'] = 'amqp://rabbitmq:rabbitmq@localhost:5672'
+app.config['CELERY_BROKER_URL'] = 'amqp://'
+app.config['CELERY_RESULT_BACKEND'] = 'amqp://'
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
