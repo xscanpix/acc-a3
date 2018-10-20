@@ -43,15 +43,15 @@ def prime():
 def hello():
     return print_hello()
 
-@shared_task
+@celery.task
 def hello():
     return 'Hello there!'
 
-@shared_task(bind=True)
+@celery.task(bind=True)
 def debug_task(self):
     print('Request: {0!r}'.format(self.request))
 
-@shared_task
+@celery.task
 def return_text(data_path):
     with open(data_path, 'r') as infile:
         rows = infile.readlines()

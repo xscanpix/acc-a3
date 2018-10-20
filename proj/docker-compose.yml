@@ -22,4 +22,4 @@ services:
 
   celery:
     build: .
-    command: celery worker -l info -A tasks
+    command: celery worker -l info -A tasks.celery
