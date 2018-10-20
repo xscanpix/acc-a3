@@ -175,6 +175,21 @@ resources:
                   export FLASK_APP=/home/ubuntu/acc-a3/messaging/tasks.py
                   export FLASK_ENV=development
                 path: /home/ubuntu/authcreds.sh
+              - content: |
+                  OS_AUTH_URL=$os_auth_url
+                  OS_USERNAME=$os_username
+                  OS_PASSWORD=$os_password
+                  OS_STORAGE_URL=$os_storage_url
+                  OS_AUTH_TOKEN=$os_auth_token
+                  OS_PROJECT_ID=$os_project_id
+                  OS_PROJECT_NAME=$os_project_name
+                  OS_INTERFACE=$os_interface
+                  OS_REGION_NAME=$os_region_name
+                  OS_IDENTITY_API_VERSION=$os_identity_api_version
+                  OS_USER_DOMAIN_NAME=$os_user_domain_name
+                  FLASK_APP=/home/ubuntu/acc-a3/messaging/tasks.py
+                  FLASK_ENV=development
+                path: /home/ubuntu/docker_env.txt
 
             runcmd:
                 - 'cd /home/ubuntu'

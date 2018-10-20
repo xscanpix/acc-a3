@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  rabbitmq:
+    image: 'rabbitmq: latest'
+    volumes:
+      - 'rabbitmq:/data'
+    ports:
+      - '5000:5000'
+
+  flask:
+    build: .
+    command: flask run --host=0.0.0.0 &
+    volumes:
+      - '.:.'
+    ports:
+      - '8000:8000'
+
+  celery:
+    build: .
+    command: celery worker -l info -A tasks
+    volumes:
+      - '.:.'
+  
+volumes:
+  rabbitmq:
