@@ -8,7 +8,8 @@ def main():
 	text = list(map(lambda x: json.loads(x)['text'].encode('utf-8'), filtered))
     text_no_rt = list(filter(lambda x: x[:2] != 'RT', text))
 
-    pronouns = {
+    pronouns = 
+ 	{
 	    'han': 0,
 	    'hon': 0,
 	    'hen': 0,
