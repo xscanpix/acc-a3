@@ -24,16 +24,13 @@ def return_text(data_path):
 
 	text_no_rt = list(filter(lambda x: x[:2] != 'RT', text))
 
-    pronouns = 
-    {
-    'han': 0,
-    'hon': 0,
-    'hen': 0,
-    'det': 0,
-    'denna': 0,
-    'denne': 0,
-    'den': 0
-    }
+    pronouns = {'han': 0,
+			    'hon': 0,
+    			'hen': 0,
+    			'det': 0,
+    			'denna': 0,
+    			'denne': 0,
+    			'den': 0 }
 
     for row in text_no_rt:
         pronouns = count_words(pronouns, row)        
