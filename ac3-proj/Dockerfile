@@ -1,5 +1,7 @@
 FROM python:2.7-slim
 
+ENV FLASK_APP=app.y
+ENV FLASK_ENV=development
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
