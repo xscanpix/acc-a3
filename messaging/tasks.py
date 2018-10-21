@@ -44,12 +44,12 @@ def text():
 	result = return_text.delay(data_paths[0])
 
 	print "Task finished? ", str(result.ready())
-	print "Task result ", result.result
+
 
 	time.sleep(10)
 
 	print "Task finished? " + str(result.ready())
-	print "Task result ", result.result
+
 
 
 	return result.result
