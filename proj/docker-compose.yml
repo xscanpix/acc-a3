@@ -1,12 +1,6 @@
 version: '2'
 
 services:
-  rabbitmq:
-    hostname: rabbit
-    image: 'rabbitmq:3-management'
-    ports:
-      - '5672:5672'
-      - '15672:15672'
   flask:
     build: .
     command: flask run --host=0.0.0.0
