@@ -24,7 +24,8 @@ def return_text(data_path):
 
 	text_no_rt = list(filter(lambda x: x[:2] != 'RT', text))
 
-    pronouns = {
+    pronouns = 
+    {
         'han': 0,
         'hon': 0,
         'hen': 0,
