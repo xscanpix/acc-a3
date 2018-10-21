@@ -12,7 +12,7 @@ celery.conf.update(app.config)
 
 @celery.task(bind=True)
 def debug_task(self):
-    print('Request: {0!r}'.format(self.request))
+  print('Request: {0!r}'.format(self.request))
 
 @celery.task
 def return_text(data_path):
@@ -21,10 +21,9 @@ def return_text(data_path):
 
 	filtered = list(filter(lambda x: x != '\n', rows))
 	text = list(map(lambda x: json.loads(x)['text'].encode('utf-8'), filtered))
-
 	text_no_rt = list(filter(lambda x: x[:2] != 'RT', text))
 
-    pronouns = {
+  pronouns = {
     'han': 0,
 		'hon': 0,
     'hen': 0,
@@ -33,10 +32,11 @@ def return_text(data_path):
     'denne': 0,
     'den': 0 }
 
-    for row in text_no_rt:
-        pronouns = count_words(pronouns, row)        
 
-    pronouns_json = json.dumps(pronouns)
+  for row in text_no_rt:
+    pronouns = count_words(pronouns, row)        
+	
+	pronouns_json = json.dumps(pronouns)
         
 	return pronouns_json
 
