@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  rabbit_node_1:
+    environment:
+      - RABBITMQ_ERLANG_COOKIE='secret_cookie'
+    networks:
+      - back
+    hostname: rabbit_node_1
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    tty: true
+    volumes:
+      - rabbit1:/var/lib/rabbitmq
+      - ./conf/:/etc/rabbitmq/
+    command:  bash -c "sleep 10; rabbitmq-server;"
+
+  celery:
+    build: .
+    command: celery worker -B -l info -A myproject.app.celery
+    env_file:
+      - '.env'
+    volumes:
+      - '.:/app'
+
+  flask:
+    build: .
+    command: flask run --host=0.0.0.0
+    env_file:
+      - '.env'
+    volumes:
+      - '.:/app'
+
+volumes:
+  rabbit1:
+    driver: local
+
+networks:
+  back:
