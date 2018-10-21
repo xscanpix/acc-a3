@@ -73,8 +73,11 @@ resources:
           port_range_min: 5555
           port_range_max: 5555
         - protocol: tcp # rabbitmq
-          port_range_min: 4369
-          port_range_max: 4369
+          port_range_min: 5671
+          port_range_max: 5672
+        - protocol: tcp # rabbitmq management
+          port_range_min: 15672
+          port_range_max: 15672
   
 # IPs
   floating_ip:
@@ -183,11 +186,13 @@ resources:
                 - 'cd /home/ubuntu'
                 - 'git clone "https://github.com/xscanpix/acc-a3.git"'
                 - 'python -m pip install --upgrade pip'
-                - 'pip install -r /home/ubuntu/acc-a3/ac3-proj/requirements.txt
+                - 'pip install -r /home/ubuntu/acc-a3/messaging/requirements.txt
                 - '. authcreds.sh'
                 - 'swift download svni7746-c3 -p data/0'
-                - 'celery worker -E -A acc-a3/messaging/tasks.celery --autoscale=10,3 --loglevel=info'
+                - 'celery worker -E -A acc-a3/messaging/tasks.celery --loglevel=info'
                 - 'flask run --host=0.0.0.0'
+                - 'flower'
+
 
 outputs:
   os_auth_token:

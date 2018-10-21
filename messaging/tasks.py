@@ -22,13 +22,36 @@ def return_text(data_path):
 	filtered = list(filter(lambda x: x != '\n', rows))
 	text = list(map(lambda x: json.loads(x)['text'].encode('utf-8'), filtered))
 
-	return str(text)
+	text_no_rt = list(filter(lambda x: x[:2] != 'RT', text))
+
+    pronouns = {
+        'han': 0,
+        'hon': 0,
+        'hen': 0,
+        'det': 0,
+        'denna': 0,
+        'denne': 0,
+        'den': 0
+    }
+
+    for row in text_no_rt:
+        pronouns = count_words(pronouns, row)        
+
+    pronouns_json = json.dumps(pronouns)
+        
+	return pronouns_json
+
+def count_words(pronouns, text):
+	words = str.split(text)
+	for word in words:
+		if word in pronouns:
+			pronouns[word] += 1
+	return pronouns
 
 @celery.task
 def print_hello():
 
 	return 'Hello there!\n'
-
 
 @app.route('/text', methods=['GET'])
 def text():
@@ -45,14 +68,14 @@ def text():
 
 	print "Task finished? ", str(result.ready())
 
-
-	time.sleep(10)
+	time.sleep(5)
 
 	print "Task finished? " + str(result.ready())
 
 
 
 	return result.result
+
 
 @app.route('/hello', methods=['GET'])
 def hello():
