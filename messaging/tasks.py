@@ -25,7 +25,7 @@ def return_text(data_path):
 	return str(text)
 
 @celery.task
-def return_hello():
+def print_hello():
 
 	return 'Hello there!\n'
 
