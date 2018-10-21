@@ -24,6 +24,12 @@ def return_text(data_path):
 
 	return str(text)
 
+@celery.task
+def return_hello():
+
+	return 'Hello there!\n'
+
+
 @app.route('/text', methods=['GET'])
 def text():
 
@@ -47,10 +53,6 @@ def text():
 
 
 	return result.result
-
-@app.route('/prime', methods=['GET'])
-def prime():
-	return gen_prime(100)
 
 @app.route('/hello', methods=['GET'])
 def hello():
