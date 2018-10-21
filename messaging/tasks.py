@@ -5,9 +5,9 @@ import time
 
 app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://'
-app.config['CELERY_RESULT_BACKEND'] = 'amqp://'
+app.config['CELERY_RESULT_BACKEND'] = 'rpc://'
 
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'], result=app.config['CELERY_RESULT_BACKEND'])
 celery.conf.update(app.config)
 
 @celery.task(bind=True)
@@ -40,11 +40,6 @@ def count_words(pronouns, text):
       pronouns[word] += 1
   return pronouns
 
-@celery.task
-def print_hello():
-
-  return 'Hello there!\n'
-
 @app.route('/text', methods=['GET'])
 def text():
 
@@ -57,16 +52,10 @@ def text():
                 "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
 
   result = return_text.delay(data_paths[0])
-  print "Task finished? ", str(result.ready())
-  time.sleep(5)
-  print "Task finished? " + str(result.ready())
+
+  result.wait()
 
   return result.result
-
-
-@app.route('/hello', methods=['GET'])
-def hello():
-	return print_hello()
   
 if __name__ == '__main__':
   app.run(host='0.0.0.0', debug=True, port=5000)
