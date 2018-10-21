@@ -1,4 +1,4 @@
 celery
 flask
 flower
-python-dotenv
+watchdog
