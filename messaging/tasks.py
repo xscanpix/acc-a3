@@ -33,6 +33,7 @@ def return_text(data_path):
         
   return pronouns_json
 
+@celery.task
 def count_words(pronouns, text):
   words = str.split(text)
   for word in words:
