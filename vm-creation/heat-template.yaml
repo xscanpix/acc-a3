@@ -175,7 +175,7 @@ resources:
                   export OS_REGION_NAME=$os_region_name
                   export OS_IDENTITY_API_VERSION=$os_identity_api_version
                   export OS_USER_DOMAIN_NAME=$os_user_domain_name
-                  export FLASK_APP=/home/ubuntu/acc-a3/ac3-proj/app.py
+                  export FLASK_APP=/home/ubuntu/acc-a3/messaging/tasks.py
                   export FLASK_ENV=development
                 path: /home/ubuntu/authcreds.sh
 
@@ -186,7 +186,7 @@ resources:
                 - 'pip install -r /home/ubuntu/acc-a3/ac3-proj/requirements.txt
                 - '. authcreds.sh'
                 - 'swift download svni7746-c3 -p data/0'
-                - 'celery worker -E -A acc-a3/ac3-proj/app.celery --autoscale=10,3 --loglevel=info'
+                - 'celery worker -E -A acc-a3/messaging/tasks.celery --autoscale=10,3 --loglevel=info'
                 - 'flask run --host=0.0.0.0'
 
 outputs:
