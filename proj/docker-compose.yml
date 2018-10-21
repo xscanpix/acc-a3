@@ -10,8 +10,6 @@ services:
       - .:/code
   celery:
     build: .
-    command: celery worker -l info -A tasks.celery
+    command: celery worker -l info -A app.celery
     volumes:
       - .:/code
-    depends_on:
-      - rabbitmq

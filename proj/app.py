@@ -7,7 +7,6 @@ app.config['CELERY_RESULT_BACKEND'] = 'amqp://'
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
-celery.autodiscover_tasks()
 
 @celery.task(bind=True)
 def debug_task(self):
