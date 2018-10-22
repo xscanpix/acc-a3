@@ -34,19 +34,19 @@ def count_all_words():
 
   result = group(return_text.s(t) for t in data_paths).delay()
 
-	while(result.ready() == False):
-  	time.sleep(5)
+  while(result.ready() == False):
+    time.sleep(5)
 
   completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
   for res in result:
-  		completed['han'] += res.result['han']
-  		completed['hon'] += res.result['hon']
-   		completed['det'] += res.result['det']
-   		completed['denna'] += res.result['denna']  		 		
-  		completed['denne'] += res.result['denne']
-   		completed['den'] += res.result['den']
-   		completed['hen'] += res.result['hen']
+    completed['han'] += res.result['han']
+    completed['hon'] += res.result['hon']
+    completed['det'] += res.result['det']
+    completed['denna'] += res.result['denna']
+    completed['denne'] += res.result['denne']
+    completed['den'] += res.result['den']
+    completed['hen'] += res.result['hen']
 
   return completed
 
@@ -62,7 +62,7 @@ def return_text(data_path):
   pronouns = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
   for row in text_no_rt:
-    pronouns = count_words(pronouns, row)       
+    pronouns = count_words(pronouns, row)
 
   pronouns_json = json.dumps(pronouns)
         
