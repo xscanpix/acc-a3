@@ -80,7 +80,7 @@ def task(self):
   return {'current': 100, 'total': 100, 'status': 'Task completed!',
             'result': 42}
 
-@app.route('/longtask', methods=['POST'])
+@app.route('/longtask', methods=['GET'])
 def longtask():
   task = count_all_words.apply_async()
   return jsonify({}), 202, {'Location': url_for('taskstatus',
