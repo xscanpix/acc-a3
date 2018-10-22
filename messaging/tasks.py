@@ -67,8 +67,8 @@ def count():
   completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
   for res in results:
-  	v = res.collect()
-  	print(type(v))
+  	for v in res:
+  		print(type(v))
 
 
   return str(results)
