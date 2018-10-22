@@ -1,4 +1,4 @@
-from celery import Celery, group, shared_task
+from celery import Celery, group
 from flask import Flask
 import json
 import time
@@ -10,11 +10,11 @@ app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 celery = Celery(app.name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
-@shared_task(bind=True)
+@celery.task(bind=True)
 def debug_task(self):
   print('Request: {0!r}'.format(self.request))
 
-@shared_task(bind=True, trail=True)
+@celery.task(bind=True, trail=True)
 def count_all_words(self):
   data_paths = ["/home/ubuntu/data/05cb5036-2170-401b-947d-68f9191b21c6",
                 "/home/ubuntu/data/094b1612-1832-429e-98c1-ae06e56d88d6",
@@ -40,7 +40,7 @@ def count_all_words(self):
 
   return completed
 
-@shared_task(trail=True)
+@celery.task(trail=True)
 def return_text(data_path):
   with open(data_path, 'r') as infile:
     rows = infile.readlines()
@@ -65,11 +65,56 @@ def count_words(pronouns, text):
       pronouns[word] += 1
   return pronouns
 
-@app.route('/count', methods=['GET'])
-def count():
-  result = count_all_words()
+@celery.task(bind=True)
+def task(self):
+  data_paths = ["/home/ubuntu/data/05cb5036-2170-401b-947d-68f9191b21c6",
+                "/home/ubuntu/data/094b1612-1832-429e-98c1-ae06e56d88d6",
+                "/home/ubuntu/data/0c7526e6-ce8c-4e59-884c-5a15bbca5eb3",
+                "/home/ubuntu/data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
+                "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
+  
+  result = []
+  for path in data_paths:
+    result.append(return_text(path))
 
-  return result.result
+  return {'current': 100, 'total': 100, 'status': 'Task completed!',
+            'result': 42}
+
+@app.route('/longtask', methods=['POST'])
+def longtask():
+  task = count_all_words.apply_async()
+  return jsonify({}), 202, {'Location': url_for('taskstatus',
+                                                  task_id=task.id)}
+
+@app.route('/status/<task_id>')
+def taskstatus(task_id):
+  task = long_task.AsyncResult(task_id)
+  if task.state == 'PENDING':
+    # job did not start yet
+    response = {
+        'state': task.state,
+        'current': 0,
+        'total': 1,
+        'status': 'Pending...'
+    }
+  elif task.state != 'FAILURE':
+    response = {
+        'state': task.state,
+        'current': task.info.get('current', 0),
+        'total': task.info.get('total', 1),
+        'status': task.info.get('status', '')
+    }
+    if 'result' in task.info:
+        response['result'] = task.info['result']
+  else:
+    # something went wrong in the background job
+    response = {
+        'state': task.state,
+        'current': 1,
+        'total': 1,
+        'status': str(task.info),  # this is the exception raised
+    }
+  return jsonify(response)
 
   
 if __name__ == '__main__':
