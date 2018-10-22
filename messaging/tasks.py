@@ -9,8 +9,8 @@ app.config['CELERY_RESULT_BACKEND'] = 'redis://127.0.0.1:6379/0'
 
 celery = Celery(app.name)
 celery.conf.update(
-  #result_backend=app.config['CELERY_RESULT_BACKEND'],
-  backend=app.config['CELERY_RESULT_BACKEND'], 
+  result_backend=app.config['CELERY_RESULT_BACKEND'],
+  #backend=app.config['CELERY_RESULT_BACKEND'], 
   broker=app.config['CELERY_BROKER_URL'], 
   task_serializer='json',
   accept_content=['json'],
