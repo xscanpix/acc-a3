@@ -51,8 +51,8 @@ def count_words_all_files(self):
   return group(return_text.s(path) for path in data_paths)()
 
 @app.route('/longtask', methods=['GET'])
-def longtask_parallel():
-  res = task_parallel()
+def longtask():
+  res = count_words_all_files()
 
   while(res.ready() == False):
     time.sleep(1)
