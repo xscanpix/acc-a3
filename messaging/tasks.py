@@ -63,7 +63,7 @@ def count_words(pronouns, text):
 def count():
   result = count_all_words()
 
-  print result
+  print type(result)
 
   return str(result)
 
