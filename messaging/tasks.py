@@ -14,7 +14,7 @@ celery.conf.update(app.config)
 def debug_task(self):
   print('Request: {0!r}'.format(self.request))
 
-@shared_task(bind=True)
+@shared_task(bind=True, trail=True)
 def count_all_words(self):
   data_paths = ["/home/ubuntu/data/05cb5036-2170-401b-947d-68f9191b21c6",
                 "/home/ubuntu/data/094b1612-1832-429e-98c1-ae06e56d88d6",
@@ -40,7 +40,7 @@ def count_all_words(self):
 
   return completed
 
-@shared_task()
+@shared_task(trail=True)
 def return_text(data_path):
   with open(data_path, 'r') as infile:
     rows = infile.readlines()
