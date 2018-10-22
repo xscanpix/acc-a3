@@ -63,7 +63,7 @@ def count_words(pronouns, text):
 def count():
   result = count_all_words()
 
-  sleep(5)
+  time.sleep(5)
 
   completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
