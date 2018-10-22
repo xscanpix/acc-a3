@@ -53,12 +53,17 @@ def count_words_all_files(self):
 
 @app.route('/countwords', methods=['GET'])
 def countwords():
+
+	start = time.time()
+
   res = count_words_all_files()
 
   while(res.ready() == False):
-    time.sleep(1)
+    time.sleep(0.1)
 
-  counts = {'tweets': 0, 'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
+  end = time.time()
+
+  counts = {'time': (end - start),'tweets': 0, 'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
   for r in res.results:
     val = json.loads(r.result)
 
@@ -70,5 +75,7 @@ def countwords():
     counts['det'] += val['det']
     counts['denne'] += val['denne']
     counts['denna'] += val['denna']
+
+
 
   return str(counts)
