@@ -23,14 +23,14 @@ def return_text(data_path):
   text = list(map(lambda x: json.loads(x)['text'].encode('utf-8'), filtered))
   text_no_rt = list(filter(lambda x: x[:2] != 'RT', text))
 
-  pronouns = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
+  data = {'tweets': 0, 'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
   for row in text_no_rt:
-    pronouns = count_words(pronouns, row)
+    data = count_words(data, row)
 
-  pronouns_json = json.dumps(pronouns)
+  data_json = json.dumps(data)
         
-  return pronouns_json
+  return data_json
 
 def count_words(pronouns, text):
   words = str.split(text)
@@ -72,10 +72,11 @@ def longtask():
 
   result = res.result
 
-  counts = {'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
+  counts = {'tweets': 0, 'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
   for r in result:
     val = json.loads(r)
 
+    counts['tweets'] += val['tweets']
     counts['han'] += val['han']
     counts['hon'] += val['hon']
     counts['hen'] += val['hen']
@@ -93,10 +94,11 @@ def longtask_parallel():
   while(res.ready() == False):
   	time.sleep(1)
 
-  counts = {'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
+  counts = {'tweets': 0, 'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
   for r in res.results:
     val = json.loads(r.result)
 
+    counts['tweets'] += val['tweets']
     counts['han'] += val['han']
     counts['hon'] += val['hon']
     counts['hen'] += val['hen']
