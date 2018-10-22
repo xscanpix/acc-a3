@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://'
 app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery = Celery(app.name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
 @shared_task(bind=True)
