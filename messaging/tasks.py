@@ -54,6 +54,14 @@ def count_words(pronouns, text):
       pronouns[word] += 1
   return pronouns
 
+@app.route('/count', methods=['GET'])
+def count():
+	result = count_all_words.delay()
+
+	result.wait()
+
+	return result.collect()
+
 @app.route('/text', methods=['GET'])
 def text():
 
