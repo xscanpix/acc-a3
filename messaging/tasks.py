@@ -2,6 +2,7 @@ from celery import Celery, group
 from flask import Flask
 import json
 import time
+import os
 
 app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://'
