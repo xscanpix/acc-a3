@@ -34,7 +34,8 @@ def count_all_words():
 
   result = group(return_text.s(t) for t in data_paths).delay()
 
-  time.sleep(5)
+	while(result.ready() == False):
+  	time.sleep(5)
 
   completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
@@ -78,7 +79,9 @@ def count_words(pronouns, text):
 def count():
   result = count_all_words.delay()
 
-  return result.results
+  result.wait()
+
+  return result.result
 
   
 
