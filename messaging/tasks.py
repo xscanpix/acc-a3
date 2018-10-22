@@ -68,7 +68,7 @@ def count():
 
   for res in results:
   	v = res.collect()
-  	type(v)
+  	print(type(v))
 
 
   return str(results)
