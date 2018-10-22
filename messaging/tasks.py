@@ -28,7 +28,7 @@ def return_text(data_path):
   for row in text_no_rt:
     data = count_words(data, row)
 
- 	data['tweets'] = len(text_no_rt)
+  data['tweets'] = len(text_no_rt)
 
   data_json = json.dumps(data)
         
