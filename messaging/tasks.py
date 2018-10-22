@@ -68,7 +68,7 @@ def count():
 
 
 
-  print type(results)
+  print results
 
   return str(results)
 
