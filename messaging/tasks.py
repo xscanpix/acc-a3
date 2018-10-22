@@ -19,11 +19,11 @@ celery.conf.update(
   enable_utc=True,
   result_persistent = True )
 
-@celery.task(bind=True)
+@shared_task(bind=True)
 def debug_task(self):
   print('Request: {0!r}'.format(self.request))
 
-@celery.task(trail=True)
+@shared_task(trail=True)
 def count_all_words():
   data_paths = ["/home/ubuntu/data/05cb5036-2170-401b-947d-68f9191b21c6",
                 "/home/ubuntu/data/094b1612-1832-429e-98c1-ae06e56d88d6",
@@ -35,7 +35,7 @@ def count_all_words():
 
   return result
 
-@celery.task(trail=True)
+@shared_task(trail=True)
 def return_text(data_path):
   with open(data_path, 'r') as infile:
     rows = infile.readlines()
@@ -65,7 +65,6 @@ def count_words(pronouns, text):
 def count():
 	result = count_all_words.delay()
 
-
 	return str(result)
 
 @app.route('/text', methods=['GET'])
@@ -81,7 +80,7 @@ def text():
 
   result = return_text.delay(data_paths[0])
 
-  while(result.ready() == 'PROGRESS'):
+  while(!result.ready()):
   	time.sleep(5)
 
   return result
