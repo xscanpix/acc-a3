@@ -23,7 +23,7 @@ def count_all_words():
                 "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
 
 
-  result = group(return_text.s(t) for t in data_paths)()
+  result = group(return_text.s(t) for t in data_paths)
 
   return result
 
