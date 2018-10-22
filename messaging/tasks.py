@@ -60,9 +60,21 @@ def longtask():
   while(res.ready() == False):
   	time.sleep(5)
 
-  
+  result = res.result
 
-  return str(res.result)
+  counts = {}
+  for r in result:
+    val = json.loads(r)
+
+    counts['han'] += val['han']
+    counts['hon'] += val['hon']
+    counts['hen'] += val['hen']
+    counts['det'] += val['det']
+    counts['denne'] += val['denne']
+    counts['denna'] += val['denna']
+    counts['den'] += val['den']
+
+  return str(counts)
   
 if __name__ == '__main__':
   app.run(host='0.0.0.0', debug=True, port=5000)
