@@ -54,7 +54,7 @@ def count_words_all_files(self):
 @app.route('/countwords', methods=['GET'])
 def countwords():
 
-	start = time.time()
+  start = time.time()
 
   res = count_words_all_files()
 
