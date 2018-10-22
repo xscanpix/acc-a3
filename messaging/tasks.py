@@ -1,4 +1,4 @@
-from celery import Celery, group
+from celery import Celery, group, shared_task
 from flask import Flask
 import json
 import time
