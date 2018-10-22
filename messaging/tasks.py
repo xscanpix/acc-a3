@@ -95,7 +95,7 @@ def longtask_parallel():
 
   counts = {'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
   for r in res.results:
-    val = json.loads(r)
+    val = json.loads(r.result)
 
     counts['han'] += val['han']
     counts['hon'] += val['hon']
