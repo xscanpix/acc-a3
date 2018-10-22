@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  celery:
+    build: .
+    command: celery worker -E -l info -A tasks.celery
+    volumes:
+      - '.:/app'

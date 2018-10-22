@@ -5,7 +5,7 @@ import time
 import os
 
 app = Flask(__name__)
-app.config['CELERY_BROKER_URL'] = 'amqp://'
+app.config['CELERY_BROKER_URL'] = 'amqp://localhost:5672/0'
 app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
 celery = Celery(app.name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['CELERY_BROKER_URL'])
@@ -51,8 +51,8 @@ def count_words_all_files(self):
   
   return group(count_words_in_file.s(path) for path in data_paths)()
 
-@app.route('/longtask', methods=['GET'])
-def longtask():
+@app.route('/countwords', methods=['GET'])
+def countwords():
   res = count_words_all_files()
 
   while(res.ready() == False):

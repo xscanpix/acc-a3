@@ -1,24 +1,28 @@
-import plotly.plotly as py
-import plotly.tools as tls
-
+import matplotlib.pyplot as plt; plt.rcdefaults()
+import numpy as np
 import matplotlib.pyplot as plt
 
 values = {'hon': 1171, 'denne': 33, 'den': 6512, 'han': 3888, 'denna': 116, 'tweets': 14701, 'hen': 101, 'det': 2475}
 
-values['hon'] = values['hon'] / values['tweets']
-values['denne'] = values['denne'] / values['tweets']
-values['den'] = values['den'] / values['tweets']
-values['han'] = values['han'] / values['tweets']
-values['denna'] = values['denna'] / values['tweets']
-values['hen'] = values['hen'] / values['tweets']
-values['det'] = values['det'] / values['tweets']
+values['hon'] = float(values['hon']) / float(values['tweets'])
+values['denne'] = float(values['denne']) / float(values['tweets'])
+values['den'] = float(values['den']) / float(values['tweets'])
+values['han'] = float(values['han']) / float(values['tweets'])
+values['denna'] = float(values['denna']) / float(values['tweets'])
+values['hen'] = float(values['hen']) / float(values['tweets'])
+values['det'] = float(values['det']) / float(values['tweets'])
+
+print(values)
 
 normalized = [values['hon'], values['denne'], values['den'], values['han'], values['denna'], values['hen'], values['det']]
+objects = ["hon","denne","den","han","denna","hen","det"]
+y_pos = np.arange(len(objects))
 x = range(len(normalized))
-width = 1/1.5
 
-plt.bar(x, normalized, width, color="blue")
 
-fig = plt.gcf()
-plotly_fig = tls.mpl_to_plotly(fig)
-py.iplot(plotly_fig, filename='mpl-basic-bar')
+plt.bar(y_pos, normalized, align='center')
+plt.xticks(y_pos, objects)
+plt.ylabel('Counts')
+plt.title('Pronoun counts')
+ 
+plt.show()

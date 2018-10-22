@@ -75,9 +75,12 @@ resources:
         - protocol: tcp # rabbitmq
           port_range_min: 5671
           port_range_max: 5672
-        - protocol: tcp # rabbitmq management
+        - protocol: tcp # rabbitmq-server
           port_range_min: 15672
           port_range_max: 15672
+        - protocol: tcp # redis-server
+          port_range_min: 6379
+          port_range_max: 6379
   
 # IPs
   floating_ip:
@@ -157,6 +160,7 @@ resources:
               - docker-ce
               - python-pip
               - rabbitmq-server
+              - redis-server
               - git
 
             apt:
@@ -183,15 +187,17 @@ resources:
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
+                - 'redis-server'
                 - 'cd /home/ubuntu'
                 - 'git clone "https://github.com/xscanpix/acc-a3.git"'
-                - 'python -m pip install --upgrade pip'
+                - 'pip install --upgrade pip'
                 - 'pip install -r /home/ubuntu/acc-a3/messaging/requirements.txt
                 - '. authcreds.sh'
                 - 'swift download svni7746-c3 -p data/0'
-                - 'celery worker -E -A acc-a3/messaging/tasks.celery --loglevel=info'
+                - 'cd /home/ubuntu/acc-a3/messaging'
+                - 'watchmedo auto-restart -- celery worker -E -l info -A tasks.celery'
                 - 'flask run --host=0.0.0.0'
-                - 'flower'
+                - 'celery flower'
 
 
 outputs:
