@@ -47,7 +47,7 @@ def count_words_all_files(self):
 
   data_paths = []
   for filename in os.listdir("/home/ubuntu/data"):
-    data_paths.append(os.path.join(directory, filename))
+    data_paths.append(os.path.join("/home/ubuntu/data", filename))
   
   return group(return_text.s(path) for path in data_paths)()
 
