@@ -9,10 +9,10 @@ app.config['CELERY_RESULT_BACKEND'] = 'redis://127.0.0.1:6379/0'
 
 celery = Celery(app.name)
 celery.conf.update(
-	result_backend=app.config['CELERY_RESULT_BACKEND'],
-	backend=app.config['CELERY_RESULT_BACKEND'], 
-	broker=app.config['CELERY_BROKER_URL'], 
-	task_serializer='json',
+  result_backend=app.config['CELERY_RESULT_BACKEND'],
+  backend=app.config['CELERY_RESULT_BACKEND'], 
+  broker=app.config['CELERY_BROKER_URL'], 
+  task_serializer='json',
   accept_content=['json'],
   result_serializer='json',
   timezone='Europe/Stockholm',
@@ -31,7 +31,7 @@ def count_all_words():
                 "/home/ubuntu/data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
                 "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
 
- 	return group(return_text.s(t) for t in data_paths).delay()
+  return group(return_text.s(t) for t in data_paths).delay()
 
 @shared_task(trail=True)
 def return_text(data_path):
@@ -61,11 +61,11 @@ def count_words(pronouns, text):
 
 @app.route('/count', methods=['GET'])
 def count():
-	result = count_all_words()
+  result = count_all_words()
 
-	print result
+  print result
 
-	return str(result)
+  return str(result)
 
   
 if __name__ == '__main__':
