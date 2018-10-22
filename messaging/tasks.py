@@ -42,54 +42,15 @@ def count_words(pronouns, text):
   return pronouns
 
 @celery.task(bind=True)
-def task(self):
-  data_paths = ["/home/ubuntu/data/05cb5036-2170-401b-947d-68f9191b21c6",
-                "/home/ubuntu/data/094b1612-1832-429e-98c1-ae06e56d88d6",
-                "/home/ubuntu/data/0c7526e6-ce8c-4e59-884c-5a15bbca5eb3",
-                "/home/ubuntu/data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
-                "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
-  
-  result = []
-  for path in data_paths:
-    result.append(return_text(path))
+def count_words_all_files(self):
 
-  return result
-
-@celery.task(bind=True)
-def task_parallel(self):
-  data_paths = ["/home/ubuntu/data/05cb5036-2170-401b-947d-68f9191b21c6",
-                "/home/ubuntu/data/094b1612-1832-429e-98c1-ae06e56d88d6",
-                "/home/ubuntu/data/0c7526e6-ce8c-4e59-884c-5a15bbca5eb3",
-                "/home/ubuntu/data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
-                "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
+	data_paths = []
+	for filename in os.listdir("home/ubuntu/data"):
+		data_paths.append(os.path.join(directory, filename))
   
   return group(return_text.s(path) for path in data_paths)()
 
 @app.route('/longtask', methods=['GET'])
-def longtask():
-  res = task.apply_async()
-
-  while(res.ready() == False):
-  	time.sleep(1)
-
-  result = res.result
-
-  counts = {'tweets': 0, 'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
-  for r in result:
-    val = json.loads(r)
-
-    counts['tweets'] += val['tweets']
-    counts['han'] += val['han']
-    counts['hon'] += val['hon']
-    counts['hen'] += val['hen']
-    counts['den'] += val['den']
-    counts['det'] += val['det']
-    counts['denne'] += val['denne']
-    counts['denna'] += val['denna']
-
-  return str(counts)
-
-@app.route('/longtask_parallel', methods=['GET'])
 def longtask_parallel():
   res = task_parallel()
 
