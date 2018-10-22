@@ -5,7 +5,7 @@ import time
 
 app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://'
-app.config['CELERY_RESULT_BACKEND'] = 'rpc'
+app.config['CELERY_RESULT_BACKEND'] = 'rpc://'
 
 celery = Celery(app.name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['CELERY_BROKER_URL'])
 #celery.conf.update(app.config)
@@ -22,9 +22,7 @@ def count_all_words():
                 "/home/ubuntu/data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
                 "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
 
-
   result = group(return_text.s(t) for t in data_paths).apply_async()
-  result.save()
 
   return result
 
@@ -62,7 +60,7 @@ def count():
 
 	print "Got here."
 
-	return result
+	return result.collect()
 
 @app.route('/text', methods=['GET'])
 def text():
