@@ -56,11 +56,11 @@ def count_words(pronouns, text):
 def count():
 	result = count_all_words.delay()
 
-	result.wait()
+	results = result.collect()
 
 	print "Got here."
 
-	return result
+	return results
 
 @app.route('/text', methods=['GET'])
 def text():
