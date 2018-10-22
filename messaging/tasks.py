@@ -5,7 +5,7 @@ import time
 import os
 
 app = Flask(__name__)
-app.config['CELERY_BROKER_URL'] = 'amqp://localhost:5672/0'
+app.config['CELERY_BROKER_URL'] = 'amqp://localhost:5672'
 app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
 celery = Celery(app.name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['CELERY_BROKER_URL'])
