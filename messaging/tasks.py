@@ -5,10 +5,10 @@ import time
 
 app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://'
-app.config['CELERY_RESULT_BACKEND'] = 'rpc://'
+app.config['CELERY_RESULT_BACKEND'] = 'rpc'
 
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
-celery.conf.update(app.config)
+celery = Celery(app.name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['CELERY_BROKER_URL'])
+#celery.conf.update(app.config)
 
 @celery.task(bind=True)
 def debug_task(self):
