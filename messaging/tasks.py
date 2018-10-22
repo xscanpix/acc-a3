@@ -67,9 +67,15 @@ def count():
   completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
   for res in results:
-  	for v in res:
-  		print(type(v))
-
+  	if(res.ready() == False):
+  		sleep(5)
+  		completed['han'] += res.result['han']
+  		completed['hon'] += res.result['hon']
+   		completed['det'] += res.result['det']
+   		completed['denna'] += res.result['denna']  		 		
+  		completed['denne'] += res.result['denne']
+   		completed['den'] += res.result['den']
+   		completed['hen'] += res.result['hen']
 
   return str(results)
 
