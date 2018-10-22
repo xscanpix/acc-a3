@@ -63,9 +63,14 @@ def count_words(pronouns, text):
 def count():
   result = count_all_words()
 
-  print type(result)
+  results = result.results
 
-  return str(result)
+
+
+
+  print type(results)
+
+  return str(results)
 
   
 if __name__ == '__main__':
