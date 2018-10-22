@@ -79,7 +79,8 @@ def text():
 
   result = return_text.delay(data_paths[0])
 
-  result.wait()
+  while(result.ready() == 'PROGRESS'):
+  	time.sleep(5)
 
   return result
   
