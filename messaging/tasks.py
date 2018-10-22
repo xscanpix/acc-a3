@@ -15,7 +15,7 @@ def debug_task(self):
   print('Request: {0!r}'.format(self.request))
 
 @shared_task(bind=True)
-def count_all_words():
+def count_all_words(self):
   data_paths = ["/home/ubuntu/data/05cb5036-2170-401b-947d-68f9191b21c6",
                 "/home/ubuntu/data/094b1612-1832-429e-98c1-ae06e56d88d6",
                 "/home/ubuntu/data/0c7526e6-ce8c-4e59-884c-5a15bbca5eb3",
