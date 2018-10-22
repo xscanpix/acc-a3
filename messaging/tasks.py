@@ -15,8 +15,9 @@ celery.conf.update(app.config)
 def debug_task(self):
   print('Request: {0!r}'.format(self.request))
 
-@celery.task(trail=True)
-def return_text(data_path):
+
+@celery.task()
+def count_words_in_file(data_path):
   with open(data_path, 'r') as infile:
     rows = infile.readlines()
 
@@ -44,12 +45,11 @@ def count_words(pronouns, text):
 
 @celery.task(bind=True)
 def count_words_all_files(self):
-
   data_paths = []
   for filename in os.listdir("/home/ubuntu/data"):
     data_paths.append(os.path.join("/home/ubuntu/data", filename))
   
-  return group(return_text.s(path) for path in data_paths)()
+  return group(count_words_in_file.s(path) for path in data_paths)()
 
 @app.route('/longtask', methods=['GET'])
 def longtask():
@@ -72,6 +72,3 @@ def longtask():
     counts['denna'] += val['denna']
 
   return str(counts)
-
-if __name__ == '__main__':
-  app.run(host='0.0.0.0', debug=True, port=5000)
