@@ -44,9 +44,9 @@ def count_words(pronouns, text):
 @celery.task(bind=True)
 def count_words_all_files(self):
 
-	data_paths = []
-	for filename in os.listdir("home/ubuntu/data"):
-		data_paths.append(os.path.join(directory, filename))
+  data_paths = []
+  for filename in os.listdir("home/ubuntu/data"):
+    data_paths.append(os.path.join(directory, filename))
   
   return group(return_text.s(path) for path in data_paths)()
 
@@ -55,7 +55,7 @@ def longtask_parallel():
   res = task_parallel()
 
   while(res.ready() == False):
-  	time.sleep(1)
+    time.sleep(1)
 
   counts = {'tweets': 0, 'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
   for r in res.results:
