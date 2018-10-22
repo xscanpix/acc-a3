@@ -88,7 +88,7 @@ def longtask():
 
 @app.route('/longtask_parallel', methods=['GET'])
 def longtask_parallel():
-  res = task.apply_async()
+  res = task_parallel.apply_async()
 
   while(res.ready() == False):
   	time.sleep(1)
