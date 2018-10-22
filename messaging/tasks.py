@@ -7,8 +7,15 @@ app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://'
 app.config['CELERY_RESULT_BACKEND'] = 'rpc://'
 
-celery = Celery(app.name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['CELERY_BROKER_URL'])
-#celery.conf.update(app.config)
+celery = Celery(app.name)
+celery.conf.update(
+	backend=app.config['CELERY_RESULT_BACKEND'], 
+	broker=app.config['CELERY_BROKER_URL'], 
+	task_serializer='json',
+  accept_content=['json'],
+  result_serializer='json',
+  timezone='Europe/Stockholm',
+  enable_utc=True )
 
 @celery.task(bind=True)
 def debug_task(self):
