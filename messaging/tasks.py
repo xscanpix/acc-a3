@@ -56,7 +56,7 @@ def task(self):
 @app.route('/longtask', methods=['GET'])
 def longtask():
   res = task.apply_async()
-  return res.result
+  return str(res.result)
   
 if __name__ == '__main__':
   app.run(host='0.0.0.0', debug=True, port=5000)
