@@ -56,6 +56,12 @@ def task(self):
 @app.route('/longtask', methods=['GET'])
 def longtask():
   res = task.apply_async()
+
+  while(res.ready() == False):
+  	time.sleep(5)
+
+  
+
   return str(res.result)
   
 if __name__ == '__main__':
