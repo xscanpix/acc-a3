@@ -5,7 +5,7 @@ import time
 
 app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379'
+app.config['CELERY_RESULT_BACKEND'] = 'amqp://'
 
 celery = Celery(app.name)
 celery.conf.update(
