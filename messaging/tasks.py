@@ -32,7 +32,22 @@ def count_all_words():
                 "/home/ubuntu/data/0d7c752e-d2a6-474b-aef4-afe5dc506e33",
                 "/home/ubuntu/data/0ecdf8e0-bc1a-4fb3-a015-9b8dc563a92f"]
 
-  return group(return_text.s(t) for t in data_paths).delay()
+  result = group(return_text.s(t) for t in data_paths).delay()
+
+  time.sleep(5)
+
+  completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
+
+  for res in result:
+  		completed['han'] += res.result['han']
+  		completed['hon'] += res.result['hon']
+   		completed['det'] += res.result['det']
+   		completed['denna'] += res.result['denna']  		 		
+  		completed['denne'] += res.result['denne']
+   		completed['den'] += res.result['den']
+   		completed['hen'] += res.result['hen']
+
+  return completed
 
 @shared_task(trail=True)
 def return_text(data_path):
@@ -61,22 +76,11 @@ def count_words(pronouns, text):
 
 @app.route('/count', methods=['GET'])
 def count():
-  result = count_all_words()
+  result = count_all_words.delay()
 
-  time.sleep(5)
+  return result.results
 
-  completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
-
-  for res in result:
-  		completed['han'] += res.result['han']
-  		completed['hon'] += res.result['hon']
-   		completed['det'] += res.result['det']
-   		completed['denna'] += res.result['denna']  		 		
-  		completed['denne'] += res.result['denne']
-   		completed['den'] += res.result['den']
-   		completed['hen'] += res.result['hen']
-
-  return completed
+  
 
   
 if __name__ == '__main__':
