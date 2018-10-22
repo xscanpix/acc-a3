@@ -80,7 +80,7 @@ def text():
 
   result = return_text.delay(data_paths[0])
 
-  while(!result.ready()):
+  while(result.ready() != True):
   	time.sleep(5)
 
   return result
