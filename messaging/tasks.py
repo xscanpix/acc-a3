@@ -47,8 +47,7 @@ def return_text(data_path):
   for row in text_no_rt:
     pronouns = count_words(pronouns, row)       
 
-  result = {'file': data_path, 'pronoun_counts': pronouns}
-  pronouns_json = json.dumps(result)
+  pronouns_json = json.dumps(pronouns)
         
   return pronouns_json
 
@@ -65,10 +64,12 @@ def count():
 
   results = result.results
 
+  completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
+  for res in results:
+  	v = res.collect()
+  	print(v)
 
-
-  print results
 
   return str(results)
 
