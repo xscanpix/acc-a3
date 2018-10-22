@@ -62,13 +62,12 @@ def count_words(pronouns, text):
 def count():
   result = count_all_words()
 
-  results = result.results
+  while(result.ready() != True):
+  	sleep(5)
 
   completed = {'han': 0,'hon': 0,'hen': 0,'det': 0,'denna': 0,'denne': 0,'den': 0}
 
-  for res in results:
-  	if(res.ready() == False):
-  		sleep(5)
+  for res in result:
   		completed['han'] += res.result['han']
   		completed['hon'] += res.result['hon']
    		completed['det'] += res.result['det']
@@ -77,7 +76,7 @@ def count():
    		completed['den'] += res.result['den']
    		completed['hen'] += res.result['hen']
 
-  return str(results)
+  return completed
 
   
 if __name__ == '__main__':
