@@ -77,13 +77,9 @@ def count_words(pronouns, text):
 
 @app.route('/count', methods=['GET'])
 def count():
-  result = count_all_words.delay()
-
-  result.wait()
+  result = count_all_words()
 
   return result.result
-
-  
 
   
 if __name__ == '__main__':
