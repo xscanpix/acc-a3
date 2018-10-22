@@ -62,7 +62,7 @@ def longtask():
 
   result = res.result
 
-  counts = {}
+  counts = {'han': 0, 'hon': 0, 'hen': 0, 'det': 0, 'den': 0, 'denne': 0, 'denna': 0}
   for r in result:
     val = json.loads(r)
 
