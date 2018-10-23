@@ -187,17 +187,17 @@ resources:
                 path: /home/ubuntu/authcreds.sh
 
             runcmd:
-                - 'cd /home/ubuntu'
-                - 'git clone "https://github.com/xscanpix/acc-a3.git"'
-                - 'pip install --upgrade pip'
-                - 'pip install -r /home/ubuntu/acc-a3/messaging/requirements.txt
-                - 'bash authcreds.sh'
-                - 'swift download svni7746-c3 -p data/0'
-                - 'redis-server'
-                - 'cd /home/ubuntu/acc-a3/messaging'
-                - 'watchmedo auto-restart -- celery worker -E -l info -A tasks.celery'
-                - 'flask run --host=0.0.0.0'
-                - 'celery flower'
+              - 'cd /home/ubuntu'
+              - 'git clone "https://github.com/xscanpix/acc-a3.git"'
+              - 'pip install --upgrade pip'
+              - 'pip install -r /home/ubuntu/acc-a3/messaging/requirements.txt
+              - 'bash authcreds.sh'
+              - 'swift download svni7746-c3 -p data/0'
+              - 'redis-server'
+              - 'cd /home/ubuntu/acc-a3/messaging'
+              - 'watchmedo auto-restart -- celery worker -E -l info -A tasks.celery'
+              - 'flask run --host=0.0.0.0'
+              - 'celery flower'
 
 
 outputs:
